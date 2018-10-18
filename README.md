@@ -2,8 +2,5 @@
 
 A mechanical spring calculator and design tool written in C#.
 
-Intended for design of: 
-  Compression springs
-  Extension springs
-  Torsion springs
+Intended for design of: Compression springs, Extension springs, Torsion springs
   
