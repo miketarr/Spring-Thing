@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using Xceed.Wpf.AvalonDock;
 
-namespace Spring_Thing
+namespace Spring_Thing.View
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for CompressionDockWindowView.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class CompressionDockWindowView : UserControl
     {
-        public MainWindow()
+        public CompressionDockWindowView()
         {
             InitializeComponent();
         }

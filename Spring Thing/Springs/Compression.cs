@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,31 @@ namespace Spring_Thing.Springs
     [Serializable]
     public partial class Compression : Part
     {
+        public override string SpringType
+        {
+            get
+            {
+                return "Compression";
+            }
+        }
+
+        public enum CrossSections { Round = 0, Rectangle = 1 }
+
+        public override string CrossSection
+        {
+            get
+            {
+                return crossSection;
+            }
+            set
+            {
+                if (Enum.TryParse(value, out CrossSections crossSectionEvaluation))
+                {
+                    crossSection = value;
+                    OnPropertyChanged(string.Empty);
+                }
+            }
+        }
 
         #region UserDefineable Values
         public double WireDia
@@ -21,7 +47,7 @@ namespace Spring_Thing.Springs
             set
             {
                 wireDia = value;
-                OnPropertyChanged("WireDia");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -34,7 +60,7 @@ namespace Spring_Thing.Springs
             set
             {
                 wireDiaTolerance = value;
-                OnPropertyChanged("WireDiaTolerance");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -50,7 +76,7 @@ namespace Spring_Thing.Springs
                 if (Enum.TryParse(value, out DiaType diatype))
                 {
                     diameterType = value;
-                    OnPropertyChanged("DiaType");
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -61,7 +87,7 @@ namespace Spring_Thing.Springs
             set
             {
                 diameter = value;
-                OnPropertyChanged("Diameter");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -75,7 +101,7 @@ namespace Spring_Thing.Springs
             set
             {
                 diameterTolerance = value;
-                OnPropertyChanged("DiameterTolerance");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -98,7 +124,7 @@ namespace Spring_Thing.Springs
             set
             {
                 freeLength = value;
-                OnPropertyChanged("FreeLength");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -111,17 +137,62 @@ namespace Spring_Thing.Springs
             set
             {
                 freeLengthTolerance = value;
-                OnPropertyChanged("FreeLengthTolerance");
+                OnPropertyChanged(string.Empty);
             }
         }
 
         public double TotalCoils
         {
-            get { return totalCoils; }
+            get
+            {
+                switch (SpringDefinition)
+                {
+                    default:
+                    case "Rate":
+                    case "TwoLoad":
+                    case "OneRateOneLoad":
+                        double total = ActiveCoils;
+
+                        switch (End1Type)
+                        {
+                            case "CEG":
+                                total += SpringConstant.InactiveWire;
+                                break;
+                            case "CENG":
+                            case "OENG":
+                                break;
+                            case "OEG":
+                                total += (SpringConstant.InactiveWire / 2.0);
+                                break;
+                        }
+
+                        switch (End2Type)
+                        {
+                            case "CEG":
+                                total += SpringConstant.InactiveWire;
+                                break;
+                            case "CENG":
+                            case "OENG":
+                                break;
+                            case "OEG":
+                                total += (SpringConstant.InactiveWire / 2.0);
+                                break;
+                        }
+
+                        totalCoils = total;
+                        break;
+
+                    case "Dimensional":
+                        break;
+                }
+
+                return totalCoils;
+            }
+
             set
             {
                 totalCoils = value;
-                OnPropertyChanged("TotalCoils");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -131,7 +202,7 @@ namespace Spring_Thing.Springs
             set
             {
                 totalCoilsTolerance = value;
-                OnPropertyChanged("TotalCoilsTolerance");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -148,11 +219,11 @@ namespace Spring_Thing.Springs
                     case "TwoLoad":
                         return (Load2 - Load1) / Math.Abs(Length1 - Length2);
                     case "Dimensional":
-                        if(Material.CrossSection == "Round")
+                        if(CrossSection == "Round")
                         {
                             return ((Material.GMod * Math.Pow(WireDia, 4)) / (8.0 * ActiveCoils * Math.Pow(MeanDiameter, 3)));
                         }
-                        else if (Material.CrossSection == "Rectangular")
+                        else if (CrossSection == "Rectangular")
                         {
                             SpringRate = (Material.EMod * WireWidth * Math.Pow(WireThickness, 3)) / (ActiveCoils * Math.Pow(Diameter, 3)) * K2(Diameter, WireThickness, WireWidth);
                         }
@@ -163,7 +234,7 @@ namespace Spring_Thing.Springs
             set
             {
                 springRate = value;
-                OnPropertyChanged("SpringRate");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -176,7 +247,7 @@ namespace Spring_Thing.Springs
             set
             {
                 springRateTolerance = value;
-                OnPropertyChanged("SpringRateTolerance");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -186,7 +257,7 @@ namespace Spring_Thing.Springs
             set
             {
                 load1 = value;
-                OnPropertyChanged("Load1");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -196,7 +267,7 @@ namespace Spring_Thing.Springs
             set
             {
                 load1Tolerance = value;
-                OnPropertyChanged("Load1Tolerance");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -206,7 +277,7 @@ namespace Spring_Thing.Springs
             set
             {
                 load2 = value;
-                OnPropertyChanged("Load2");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -216,7 +287,7 @@ namespace Spring_Thing.Springs
             set
             {
                 load2Tolerance = value;
-                OnPropertyChanged("Load2Tolerance");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -226,7 +297,7 @@ namespace Spring_Thing.Springs
             set
             {
                 length1 = value;
-                OnPropertyChanged("Length1");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -236,7 +307,7 @@ namespace Spring_Thing.Springs
             set
             {
                 length1Tolerance = value;
-                OnPropertyChanged("Length1Tolerance");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -246,7 +317,7 @@ namespace Spring_Thing.Springs
             set
             {
                 length2 = value;
-                OnPropertyChanged("Length2");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -256,7 +327,7 @@ namespace Spring_Thing.Springs
             set
             {
                 length2Tolerance = value;
-                OnPropertyChanged("Length2Tolerance");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -279,7 +350,7 @@ namespace Spring_Thing.Springs
             set
             {
                 travel = value;
-                OnPropertyChanged("Travel");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -294,7 +365,7 @@ namespace Spring_Thing.Springs
                 if(Enum.TryParse(value, out DesignType designtype))
                 {
                     designConstraint = value;
-                    OnPropertyChanged("DesignConstraint");
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -309,7 +380,7 @@ namespace Spring_Thing.Springs
                 if(Enum.TryParse(value, out SpecType spectype))
                 {
                     springDefinition = value;
-                    OnPropertyChanged("SpecType");
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -325,7 +396,7 @@ namespace Spring_Thing.Springs
                 if(Enum.TryParse(value, out EndType endtype))
                 {
                     end1Type = value;
-                    OnPropertyChanged("End1Type");
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -341,7 +412,7 @@ namespace Spring_Thing.Springs
                 if (Enum.TryParse(value, out EndType endtype))
                 {
                     end2Type = value;
-                    OnPropertyChanged("End2Type");
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -354,7 +425,7 @@ namespace Spring_Thing.Springs
                 if(value >= 0.0)
                 {
                     grindArea = value;
-                    OnPropertyChanged("GrindArea");
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -367,7 +438,7 @@ namespace Spring_Thing.Springs
                 if(value >= 0.0)
                 {
                     maxSolidHeight = value;
-                    OnPropertyChanged("MaxSolidHeight");
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -380,7 +451,20 @@ namespace Spring_Thing.Springs
                 if(Enum.TryParse(value, out Hand hand))
                 {
                     coilDirection = value;
-                    OnPropertyChanged("CoilDirection");
+                    OnPropertyChanged(string.Empty);
+                }
+            }
+        }
+
+        public double Squareness
+        {
+            get { return squareness; }
+            set
+            {
+                if(value > 0.0)
+                {
+                    squareness = value;
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -393,7 +477,7 @@ namespace Spring_Thing.Springs
                 if(value >= 0.0)
                 {
                     wireWidth = value;
-                    OnPropertyChanged("WireWidth");
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -406,7 +490,7 @@ namespace Spring_Thing.Springs
                 if(value >= 0.0)
                 {
                     wireThickness = value;
-                    OnPropertyChanged("WireThickness");
+                    OnPropertyChanged(string.Empty);
                 }
             }
         }
@@ -419,7 +503,7 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                if (Material.CrossSection == "Round")
+                if (CrossSection == "Round")
                 {
                     switch (diameterType)
                     {
@@ -433,7 +517,7 @@ namespace Spring_Thing.Springs
                             return diameter;
                     }
                 }
-                else if(Material.CrossSection == "Rectangular")
+                else if(CrossSection == "Rectangular")
                 {
                     switch (diameterType)
                     {
@@ -459,30 +543,53 @@ namespace Spring_Thing.Springs
             get
             {
                 double activecoils = totalCoils;
-
-                switch (End1Type)
+                switch (SpringDefinition)
                 {
-                    case "CEG":
-                        activecoils -= SpringConstant.InactiveWire;
-                        break;
-                    case "CENG":
-                    case "OENG":
-                        break;
-                    case "OEG":
-                        activecoils -= (SpringConstant.InactiveWire / 2.0);
-                        break;
-                }
+                    //public enum SpecType { Rate, TwoLoad, RateOneLoad, Dimensional }
+                    default:
+                    case "Dimensional":
 
-                switch (End2Type)
-                {
-                    case "CEG":
-                        activecoils -= SpringConstant.InactiveWire;
+                        switch (End1Type)
+                        {
+                            case "CEG":
+                                activecoils -= SpringConstant.InactiveWire;
+                                break;
+                            case "CENG":
+                            case "OENG":
+                                break;
+                            case "OEG":
+                                activecoils -= (SpringConstant.InactiveWire / 2.0);
+                                break;
+                        }
+
+                        switch (End2Type)
+                        {
+                            case "CEG":
+                                activecoils -= SpringConstant.InactiveWire;
+                                break;
+                            case "CENG":
+                            case "OENG":
+                                break;
+                            case "OEG":
+                                activecoils -= (SpringConstant.InactiveWire / 2.0);
+                                break;
+                        }
                         break;
-                    case "CENG":
-                    case "OENG":
-                        break;
-                    case "OEG":
-                        activecoils -= (SpringConstant.InactiveWire / 2.0);
+                    case "Rate":
+                    case "TwoLoad":
+                    case "OneRateOneLoad":
+                        switch (CrossSection)
+                        {
+                            default:
+                            case "Round":
+                                activecoils = (Material.GMod * Math.Pow(WireDia, 4)) / (8.0 * SpringRate * Math.Pow(MeanDiameter, 3));
+                                break;
+
+                            case "Rectangular":
+                                activecoils = (Material.EMod * WireWidth * Math.Pow(WireThickness, 3)) / (SpringRate * Math.Pow(Diameter, 3)) * K2(Diameter, WireThickness, WireWidth);
+                                break;
+                        }
+
                         break;
                 }
 
@@ -493,7 +600,7 @@ namespace Spring_Thing.Springs
             set
             {
                 activeCoils = value;
-                OnPropertyChanged("ActiveCoils");
+                OnPropertyChanged(string.Empty);
             }
         }
 
@@ -501,17 +608,32 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                if (Material.CrossSection == "Round")
+                if (CrossSection == "Round")
                 {
                     return (MeanDiameter / WireDia);
                 }
-                else if (Material.CrossSection == "Rectangular")
+                else if (CrossSection == "Rectangular")
                 {
                     return (MeanDiameter / WireThickness);
                 }
                 else
                 {
                     return (MeanDiameter / WireDia);
+                }
+            }
+        }
+
+        public double SolidHeight
+        {
+            get
+            {
+                switch (CrossSection)
+                {
+                    default:
+                    case "Round":
+                        return (TotalCoils * WireDia) - (GrindArea * WireDia * 2.0);
+                    case "Rectangular":
+                        return (TotalCoils * WireThickness) - (GrindArea * WireThickness * 2.0);
                 }
             }
         }
@@ -550,13 +672,22 @@ namespace Spring_Thing.Springs
         private double maxSolidHeight;
         private string coilDirection;
         private double squareness;
+        private string crossSection;
         #endregion
 
-        public enum EndType { CEG, CENG, OEG, OENG }
+        public enum EndType {
+            [Description("Closed-End Ground")]
+            CEG,
+            [Description("Closed-End Not Ground")]
+            CENG,
+            [Description("Open-End Ground")]
+            OEG,
+            [Description("Open-End Not Ground")]
+            OENG }
 
         public double K2(double dia, double thickness, double width)
         {
-            if(Material.CrossSection == "Round") { return 0.0; }
+            if(CrossSection == "Round") { return 0.0; }
 
             double k2;
             double[] a;
@@ -587,17 +718,48 @@ namespace Spring_Thing.Springs
             return k2;
         }
 
-        public override void Calculate()
+        public Compression()
         {
-            try
-            {
+            PartNumber = "New Compression";
+            Revision = "NEW";
+            DateCreated = DateTime.Today;
+            LastUpdated = DateTime.Today;
+            Description = string.Empty;
+            CreatedBy = "User";
 
-            }
-            catch
-            {
+            Units = "Imperial";
+            UnitSystem = new Unit_Imperial();
 
-            }
-            
-        } 
+            Material = MaterialLibrary.SelectMaterial("Stainless 302");
+
+            DesignConstraint = "WireDia";
+            SpringDefinition = "Rate";
+
+            WireDia = 0.367;
+            WireWidth = 0.0;
+            WireThickness = 0.0;
+            WireDiaTolerance = 0.001;
+
+            Diameter = 2.500;
+            DiameterType = "OD";
+            DiameterTolerance = 0.030;
+
+            FreeLength = 6.000;
+            FreeLengthTolerance = 0.050;
+            Travel = 3.500;
+
+            SpringRate = 495.000;
+            SpringRateTolerance = 25.000;
+
+            End1Type = "CEG";
+            End2Type = "CEG";
+
+            MaxSolidHeight = 0.000;
+            Squareness = 3.00;
+            GrindArea = 0.75;
+            CoilDirection = "Right";
+            CrossSection = "Round";
+
+        }
     }
 }

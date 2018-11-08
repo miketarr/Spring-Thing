@@ -25,9 +25,9 @@ namespace Spring_Thing.Views
                 End1Type = "CEG",
                 End2Type = "CEG",
                 TotalCoils = 7.0,
-                Diameter = 2.5
-
-                
+                Diameter = 2.5,
+                Squareness = 3.0,
+                CoilDirection = "Right"     
             };
 
             return compression;

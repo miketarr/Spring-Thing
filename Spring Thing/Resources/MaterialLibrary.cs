@@ -25,7 +25,7 @@ namespace Spring_Thing.Resources
             Material Stainless302 = new Material
             {
                 MaterialName = "Stainless 302",
-                MaterialDescription = "Stainless 302 (Round)",
+                MaterialDescription = "Stainless 302",
                 Specification = "ASTM YADA YADA",
                 EMod = 27500000,
                 GMod = 10600000,
@@ -34,10 +34,28 @@ namespace Spring_Thing.Resources
                 MaxSize = 0.625,
                 StrengthUltimate = 92000,
                 StrengthYield = 34000,
-                CrossSection = "Round",
-                Units = "Imperial"
+                Units = "Imperial",
+                MaterialUnits = new Unit_Imperial()
+            };
+
+            Material Stainless177 = new Material
+            {
+                // from http://www.springhouston.com/materials/stainless-steel/17-7-ph-spring.html
+                MaterialName = "Stainless 17-7",
+                MaterialDescription = "Stainless 17-7",
+                Specification = "ASTM YADA YADA",
+                EMod = 29500000,
+                GMod = 11000000,
+                PoissonsRatio = 0.30,
+                Density = 0.282,
+                MaxSize = 0.625,
+                StrengthUltimate = 92000,
+                StrengthYield = 34000,
+                Units = "Imperial",
+                MaterialUnits = new Unit_Imperial()
             };
             Materials.Add(Stainless302);
+            Materials.Add(Stainless177);
         }
 
         public static Material SelectMaterial(string mat)

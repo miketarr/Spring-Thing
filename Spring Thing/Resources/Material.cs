@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace Spring_Thing.Resources
 {
@@ -13,7 +14,6 @@ namespace Spring_Thing.Resources
          * inches, psi, pounds, etc.
          */
             
-
         public string MaterialName { get; set; }
         public string MaterialDescription { get; set; }
         public string Specification { get; set; }
@@ -24,42 +24,9 @@ namespace Spring_Thing.Resources
         public double MaxSize { get; set; }
         public double StrengthUltimate { get; set; }
         public double StrengthYield { get; set; }
-        
-        public enum CrossSections { Round = 0, Rectangle = 1 }
+        public string Units { get; set; }
 
-        public string CrossSection
-        {
-            get
-            {
-                return crossSection;
-            }
-            set
-            {
-                if (Enum.TryParse(value, out CrossSections crossSectionEvaluation))
-                {
-                    crossSection = value;
-                }
-            }
-        }
-
-        public string Units
-        {
-            get
-            {
-                return units;
-            }
-
-            set
-            {
-                if(Enum.TryParse(value, out Units.Unit unitEvaluation))
-                {
-                    units = value;
-                }
-            }
-        }
-
-        private string crossSection;
-        private string units;
-       
+        [XmlIgnore()]
+        public IUnit MaterialUnits { get; set; }
     }
 }
