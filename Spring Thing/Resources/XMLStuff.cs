@@ -17,17 +17,39 @@ namespace Spring_Thing.Resources
         public void SaveCompression(Compression spring)
         {
             XmlSerializer x = new XmlSerializer(spring.GetType());
-            SaveFileDialog save = new SaveFileDialog();
-            save.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-            save.FileName = spring.PartNumber + ".xml";
-            save.Filter = "XML File (*.xml)|*.xml|All Files (*.*)|*.*";
-            if(save.ShowDialog() == true)
+            SaveFileDialog save = new SaveFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                FileName = spring.PartNumber + ".xml",
+                Filter = "XML File (*.xml)|*.xml|All Files (*.*)|*.*"
+            };
+            if (save.ShowDialog() == true)
             {
                 FileStream file = File.Create(save.FileName);
                 x.Serialize(file, spring);
                 file.Close();
             }
 
+        }
+
+        public Compression ReadCompression()
+        {
+            Compression openCompression = new Compression();
+
+            XmlSerializer reader = new XmlSerializer(typeof(Compression));
+            OpenFileDialog open = new OpenFileDialog
+            {
+                InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                Filter = "XML File (*.xml)|*.xml|All Files (*.*)|*.*"
+            };
+            if (open.ShowDialog() == true)
+            {
+                FileStream file = File.Open(open.FileName, FileMode.Open);
+                openCompression = (Compression)reader.Deserialize(file);
+                file.Close();
+            }
+
+            return openCompression;
         }
     }
 }

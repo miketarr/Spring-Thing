@@ -55,6 +55,30 @@ namespace Spring_Thing.Resources
                 return @"ksi";
             }
         }
+
+        public double SuggestedLengthTolerance
+        {
+            get
+            {
+                return 0.100;
+            }
+        }
+
+        public double SuggestedDiameterTolerance
+        {
+            get
+            {
+                return 0.030;
+            }
+        }
+
+        public double SuggestedWireTolerance
+        {
+            get
+            {
+                return 0.001;
+            }
+        }
         
     }
 }

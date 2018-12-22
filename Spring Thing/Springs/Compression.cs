@@ -73,11 +73,8 @@ namespace Spring_Thing.Springs
 
             set
             {
-                if (Enum.TryParse(value, out DiaType diatype))
-                {
                     diameterType = value;
-                    OnPropertyChanged(string.Empty);
-                }
+                    OnPropertyChanged(string.Empty);              
             }
         }
 
@@ -149,8 +146,8 @@ namespace Spring_Thing.Springs
                 {
                     default:
                     case "Rate":
-                    case "TwoLoad":
-                    case "OneRateOneLoad":
+                    case "Two Load":
+                    case "Rate + Load":
                         double total = ActiveCoils;
 
                         switch (End1Type)
@@ -214,21 +211,22 @@ namespace Spring_Thing.Springs
                 switch (SpringDefinition)
                 {
                     case "Rate":
+                    case "Rate + Load":
                     default:
                         return springRate;
-                    case "TwoLoad":
+                    case "Two Load":
                         return (Load2 - Load1) / Math.Abs(Length1 - Length2);
                     case "Dimensional":
                         if(CrossSection == "Round")
                         {
-                            return ((Material.GMod * Math.Pow(WireDia, 4)) / (8.0 * ActiveCoils * Math.Pow(MeanDiameter, 3)));
+                            springRate = ((Material.GMod * Math.Pow(WireDia, 4)) / (8.0 * ActiveCoils * Math.Pow(MeanDiameter, 3)));
                         }
                         else if (CrossSection == "Rectangular")
                         {
-                            SpringRate = (Material.EMod * WireWidth * Math.Pow(WireThickness, 3)) / (ActiveCoils * Math.Pow(Diameter, 3)) * K2(Diameter, WireThickness, WireWidth);
+                            springRate = (Material.EMod * WireWidth * Math.Pow(WireThickness, 3)) / (ActiveCoils * Math.Pow(Diameter, 3)) * K2(Diameter, WireThickness, WireWidth);
                         }
                         
-                        return 0.0;
+                        return springRate;
                 }
             }
             set
@@ -341,9 +339,9 @@ namespace Spring_Thing.Springs
                     case "Dimensional":
                     default:
                         return travel;
-                    case "TwoLoad":
+                    case "Two Load":
                         return (FreeLength - Length2);
-                    case "OneLoadOneRate":
+                    case "Rate + Load":
                         return (Load2 / SpringRate);
                 }
             }
@@ -354,19 +352,32 @@ namespace Spring_Thing.Springs
             }
         }
 
+        public double TravelTolerance
+        {
+            get
+            {
+                return travelTolerance;
+            }
+            set
+            {
+                travelTolerance = value;
+                OnPropertyChanged(string.Empty);
+            }
+        }
+
         /// <summary>
         /// The primary variable driving the design - Wire size, rate, or stress
         /// </summary>
         public string DesignConstraint
         {
-            get { return designConstraint; }
+            get
+            {
+                return designConstraint;
+            }
             set
             {
-                if(Enum.TryParse(value, out DesignType designtype))
-                {
                     designConstraint = value;
                     OnPropertyChanged(string.Empty);
-                }
             }
         }
         /// <summary>
@@ -377,11 +388,8 @@ namespace Spring_Thing.Springs
             get { return springDefinition; }
             set
             {
-                if(Enum.TryParse(value, out SpecType spectype))
-                {
                     springDefinition = value;
-                    OnPropertyChanged(string.Empty);
-                }
+                    OnPropertyChanged(string.Empty);      
             }
         }
 
@@ -576,8 +584,8 @@ namespace Spring_Thing.Springs
                         }
                         break;
                     case "Rate":
-                    case "TwoLoad":
-                    case "OneRateOneLoad":
+                    case "Two Load":
+                    case "Rate + Load":
                         switch (CrossSection)
                         {
                             default:
@@ -664,6 +672,7 @@ namespace Spring_Thing.Springs
         private double length2;
         private double length2Tolerance;
         private double travel;
+        private double travelTolerance;
         private string designConstraint;
         private string springDefinition;
         private string end1Type;
@@ -732,7 +741,7 @@ namespace Spring_Thing.Springs
 
             Material = MaterialLibrary.SelectMaterial("Stainless 302");
 
-            DesignConstraint = "WireDia";
+            DesignConstraint = "Wire Diameter";
             SpringDefinition = "Rate";
 
             WireDia = 0.367;
@@ -744,9 +753,12 @@ namespace Spring_Thing.Springs
             DiameterType = "OD";
             DiameterTolerance = 0.030;
 
+            TotalCoilsTolerance = 0.05;
+
             FreeLength = 6.000;
             FreeLengthTolerance = 0.050;
             Travel = 3.500;
+            TravelTolerance = 0.100;
 
             SpringRate = 495.000;
             SpringRateTolerance = 25.000;

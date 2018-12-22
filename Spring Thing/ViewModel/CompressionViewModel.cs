@@ -19,12 +19,22 @@ namespace Spring_Thing.ViewModel
         public CompressionViewModel()
         {
             currentCompression = new Compression();
+            
             materialList = MaterialLibrary.Materials;
-            CurrentMaterial = CurrentCompression.Material;
-            materialCollection = new ObservableCollection<Material>(MaterialList);
             diameterList = DiameterTypes.Diameters;
+            specTypeList = SpecTypes.Specs;
+            designTypeList = DesignTypes.Designs;
+            directionList = CoilDirections.Directions;
+
+            CurrentMaterial = CurrentCompression.Material;
             CurrentDiameterType = CurrentCompression.DiameterType;
-            LoadButtonClick = new RelayCommand(new Action<object>(LoadTestSpring));
+            CurrentSpecType = CurrentCompression.SpringDefinition;
+            CurrentDesignType = CurrentCompression.DesignConstraint;
+            CurrentDirection = CurrentCompression.CoilDirection;
+
+            materialCollection = new ObservableCollection<Material>(MaterialList);
+
+            LoadButtonClick = new RelayCommand(new Action<object>(LoadCompression));
             SaveButtonClick = new RelayCommand(new Action<object>(Save));
         }
 
@@ -98,15 +108,87 @@ namespace Spring_Thing.ViewModel
             }
         }
 
+        public List<string> SpecTypeList
+        {
+            get
+            {
+                return specTypeList;
+            }
+        }
+
+        public string CurrentSpecType
+        {
+            get
+            {
+                return currentSpecType;
+            }
+
+            set
+            {
+                currentSpecType = value;
+                CurrentCompression.SpringDefinition = value;
+            }
+        }
+
+        public List<string> DesignTypeList
+        {
+            get
+            {
+                return designTypeList;
+            }
+        }
+
+        public string CurrentDesignType
+        {
+            get
+            {
+                return currentDesignType;
+            }
+
+            set
+            {
+                currentDesignType = value;
+                CurrentCompression.DesignConstraint = value;
+            }
+        }
+
+        public List<string> DirectionList
+        {
+            get
+            {
+                return directionList;
+            }
+        }
+
+        public string CurrentDirection
+        {
+            get
+            {
+                return currentDirection;
+            }
+
+            set
+            {
+                currentDirection = value;
+                CurrentCompression.CoilDirection = value;
+            }
+        }
+
         
 
         private Compression currentCompression;
-        private List<Material> materialList;
+        private readonly List<Material> materialList;
         private List<Compression> compressionList;
-        private ObservableCollection<Material> materialCollection;
+        private readonly ObservableCollection<Material> materialCollection;
         private Material currentMaterial;
-        private List<string> diameterList;
+        private readonly List<string> diameterList;
         private string currentDiameterType;
+        private readonly List<string> specTypeList;
+        private string currentSpecType;
+        private readonly List<string> designTypeList;
+        private string currentDesignType;
+        private readonly List<string> directionList;
+        private string currentDirection;
         
 
         private ICommand loadButtonClick;
@@ -130,9 +212,10 @@ namespace Spring_Thing.ViewModel
             }
         }
 
-        public void LoadTestSpring(object obj)
+        public void LoadCompression(object obj)
         {
-            
+            XMLStuff opener = new XMLStuff();
+            CurrentCompression = opener.ReadCompression();
         }
 
         public void Save(object obj)

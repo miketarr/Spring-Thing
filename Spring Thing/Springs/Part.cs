@@ -88,8 +88,7 @@ namespace Spring_Thing.Springs
 
         protected void OnPropertyChanged(string name)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-            
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));          
         }
 
         //public virtual void Calculate()
@@ -97,11 +96,55 @@ namespace Spring_Thing.Springs
 
         //}
 
-        public enum Hand { Right, Left, Optional }
-        public enum DiaType { OD, ID, MD }
-        public enum DesignType { WireDia, SpringRate, Stress }
-        public enum SpecType { Rate, TwoLoad, RateOneLoad, Dimensional }
-        public enum Unit { Imperial, Metric_N, Metric_kg }
+        public enum Hand
+        {
+            [Description("Right")]
+            Right,
+            [Description("Left")]
+            Left,
+            [Description("Optional")]
+            Optional
+        }
+
+        //public enum DiaType
+        //{
+        //    [Description("Outside Diameter")]
+        //    OD,
+        //    [Description("Inside Diameter")]
+        //    ID,
+        //    [Description("Mean Diameter")]
+        //    MD
+        //}
+
+        public enum DesignType
+        {
+            [Description("Wire Diameter")]
+            WireDia,
+            [Description("Spring Rate")]
+            SpringRate,
+            [Description("Stress")]
+            Stress
+        }
+
+        //public enum SpecType
+        //{
+        //    [Description("Spring Rate")]
+        //    Rate,
+        //    [Description("Two Loads")]
+        //    TwoLoad,
+        //    [Description("Rate + Load")]
+        //    RateOneLoad,
+        //    [Description("Dimensional")]
+        //    Dimensional
+        //}
+
+        public enum Unit
+        {
+            [Description("Imperial")]
+            Imperial,
+            [Description("Metric")]
+            Metric
+        }
 
         private Material material;
         private string partNumber;

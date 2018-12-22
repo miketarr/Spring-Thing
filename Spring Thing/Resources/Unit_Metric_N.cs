@@ -55,5 +55,29 @@ namespace Spring_Thing.Resources
                 return @"MPa";
             }
         }
+
+        public double SuggestedLengthTolerance
+        {
+            get
+            {
+                return 2.50;
+            }
+        }
+
+        public double SuggestedDiameterTolerance
+        {
+            get
+            {
+                return 0.75;
+            }
+        }
+
+        public double SuggestedWireTolerance
+        {
+            get
+            {
+                return 0.03;
+            }
+        }
     }
 }

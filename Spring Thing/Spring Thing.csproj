@@ -87,11 +87,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Resources\CoilDirections.cs" />
     <Compile Include="Resources\Constant.cs" />
+    <Compile Include="Resources\DesignTypes.cs" />
     <Compile Include="Resources\DiameterTypes.cs" />
     <Compile Include="Resources\Material.cs" />
     <Compile Include="Resources\MaterialLibrary.cs" />
     <Compile Include="Resources\IUnit.cs" />
+    <Compile Include="Resources\SpecTypes.cs" />
     <Compile Include="Resources\Unit_Imperial.cs" />
     <Compile Include="Resources\Unit_Metric_N.cs" />
     <Compile Include="Resources\XMLStuff.cs" />

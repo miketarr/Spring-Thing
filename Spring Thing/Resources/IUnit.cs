@@ -14,5 +14,9 @@ namespace Spring_Thing.Resources
         string Weight { get; }
         string Rate { get; }
         string Stress { get; }
+
+        double SuggestedLengthTolerance { get; }
+        double SuggestedDiameterTolerance { get; }
+        double SuggestedWireTolerance { get; }
     }
 }

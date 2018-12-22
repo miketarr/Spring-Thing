@@ -15,7 +15,7 @@
     <UserControl.DataContext>
         <viewmodel:CompressionViewModel/>
     </UserControl.DataContext>
-    <Grid>
+    <Grid Background="#FF10121D" Margin="0,0,-207,0">
         <TextBox HorizontalAlignment="Left" Height="23" Margin="105,14,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.PartNumber}" VerticalAlignment="Top" Width="200" Name="TextPartNumber"/>
         <Label Content="Part Number:" Margin="18,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="82"/>
         <Label Content="Spring Type:" HorizontalAlignment="Left" Margin="25,38,0,0" VerticalAlignment="Top"/>
@@ -32,40 +32,95 @@
         <Button Content="Load" HorizontalAlignment="Left" Margin="335,14,0,0" VerticalAlignment="Top" Width="74" RenderTransformOrigin="0.149,0.05" Height="23" Command="{Binding LoadButtonClick}"/>
         <Label Content="Wire Size:" HorizontalAlignment="Left" Margin="38,147,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="TextWireSize" HorizontalAlignment="Left" Height="22" Margin="104,151,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69" Text="{Binding Path=CurrentCompression.WireDia, StringFormat=F4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label x:Name="LabelWireSizeUnits" Content="{Binding Path=CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,151,0,0" VerticalAlignment="Top" Height="22" Width="20"/>
+        <Label x:Name="LabelWireSizeUnits" Content="{Binding Path=CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,147,0,0" VerticalAlignment="Top" Height="28" Width="20"/>
         <TextBox x:Name="TextWireSection" HorizontalAlignment="Left" Height="24" Margin="105,98,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.CrossSection}" VerticalAlignment="Top" Width="89"/>
         <Label Content="Diameter:" HorizontalAlignment="Left" Margin="38,175,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="TextDiameter" HorizontalAlignment="Left" Height="22" Margin="104,179,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.Diameter, StringFormat=F3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="69"/>
-        <Label x:Name="LabelDiameterUnits" Content="{Binding Path=CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,179,0,0" VerticalAlignment="Top" Height="22" Width="20"/>
-        <Label Content="±" HorizontalAlignment="Left" Margin="174,151,0,0" VerticalAlignment="Top" Height="22" Width="18" RenderTransformOrigin="0.5,0.5" FontSize="10"/>
-        <TextBox x:Name="TextWireSizeTolerance" HorizontalAlignment="Left" Height="22" Margin="192,151,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.WireDiaTolerance, StringFormat=F4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68"/>
-        <Label Content="±" HorizontalAlignment="Left" Margin="174,179,0,0" VerticalAlignment="Top" Height="22" Width="18" FontSize="10"/>
-        <TextBox x:Name="TextDiameterTolerance" HorizontalAlignment="Left" Height="22" Margin="192,179,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.DiameterTolerance, StringFormat=F3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68"/>
+        <TextBox x:Name="TextDiameter" HorizontalAlignment="Left" Height="22" Margin="104,177.96,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.Diameter, StringFormat=F3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="69"/>
+        <Label x:Name="LabelDiameterUnits" Content="{Binding Path=CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,175,0,0" VerticalAlignment="Top" Height="28" Width="20"/>
+        <Label Content="±" HorizontalAlignment="Left" Margin="173,149.16,0,0" VerticalAlignment="Top" Height="22" Width="18" RenderTransformOrigin="0.5,0.5" FontSize="10"/>
+        <TextBox x:Name="TextWireSizeTolerance" HorizontalAlignment="Left" Height="21.96" Margin="191,151,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.WireDiaTolerance, StringFormat=F4, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68"/>
+        <Label Content="±" HorizontalAlignment="Left" Margin="174,177.16,0,0" VerticalAlignment="Top" Height="22" Width="18" FontSize="10"/>
+        <TextBox x:Name="TextDiameterTolerance" HorizontalAlignment="Left" Height="21.96" Margin="191,178,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.DiameterTolerance, StringFormat=F3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68"/>
         <Button x:Name="ButtonSave" Content="Save" HorizontalAlignment="Left" Margin="414,14,0,0" VerticalAlignment="Top" Width="76" Height="22" Command="{Binding SaveButtonClick}"/>
         <Label Content="Constrain By:" HorizontalAlignment="Left" Margin="344,44,0,0" VerticalAlignment="Top" Height="27"/>
-        <ComboBox x:Name="ComboSpringConstraint" HorizontalAlignment="Left" Margin="428,44,0,0" VerticalAlignment="Top" Width="122"/>
-        <Label Content="Spring Definition:" HorizontalAlignment="Left" Margin="321,71,0,0" VerticalAlignment="Top" Height="24"/>
-        <ComboBox x:Name="ComboSpringDefinition" HorizontalAlignment="Left" Margin="428,71,0,0" VerticalAlignment="Top" Width="122"/>
-        <Label Content="Free Length:&#xD;&#xA;" HorizontalAlignment="Left" Margin="25,203,0,0" VerticalAlignment="Top" Height="26"/>
-        <TextBox x:Name="TextFreeLength" HorizontalAlignment="Left" Height="23" Margin="104,206,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.FreeLength, StringFormat=F3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="69"/>
-        <Label Content="±" HorizontalAlignment="Left" Margin="174,206,0,0" VerticalAlignment="Top" Height="22" Width="18" FontSize="10"/>
-        <TextBox x:Name="TextFreeLengthTolerance" HorizontalAlignment="Left" Height="23" Margin="192,206,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.FreeLengthTolerance, StringFormat=F3, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68"/>
-        <Label x:Name="LabelFreeLengthUnits" Content="{Binding CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,206,0,0" VerticalAlignment="Top" Height="22" Width="20"/>
-        <ComboBox x:Name="ComboDiameterType" HorizontalAlignment="Left" Margin="280,179,0,0" VerticalAlignment="Top" Width="48"
+        <ComboBox x:Name="ComboSpringConstraint" Margin="428,44,0,0" VerticalAlignment="Top"
+                  ItemsSource="{Binding Path=DesignTypeList}"
+                  SelectedValue="{Binding CurrentDesignType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding CurrentDesignType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Width="122"/>
+        <Label Content="Spring Definition:" HorizontalAlignment="Left" Margin="321,71,0,0" VerticalAlignment="Top" Height="29"/>
+        <ComboBox x:Name="ComboSpringDefinition" HorizontalAlignment="Left" Margin="428,71,0,0" VerticalAlignment="Top" Width="122"
+                  ItemsSource="{Binding Path=SpecTypeList}"
+                  SelectedValue="{Binding CurrentSpecType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding CurrentSpecType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Label Content="Free Length:&#xD;&#xA;" HorizontalAlignment="Left" Margin="25,201,0,0" VerticalAlignment="Top" Height="26"/>
+        <TextBox x:Name="TextFreeLength" HorizontalAlignment="Left" Height="22" Margin="104,205,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.FreeLength, StringFormat=F3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="69"/>
+        <Label Content="±" HorizontalAlignment="Left" Margin="174,203.16,0,0" VerticalAlignment="Top" Height="22" Width="18" FontSize="10"/>
+        <TextBox x:Name="TextFreeLengthTolerance" HorizontalAlignment="Left" Height="21.96" Margin="191,205,0,0" TextWrapping="Wrap" Text="{Binding Path=CurrentCompression.FreeLengthTolerance, StringFormat=F3, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68"/>
+        <Label x:Name="LabelFreeLengthUnits" Content="{Binding CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,203,0,0" VerticalAlignment="Top" Height="28" Width="20"/>
+        <ComboBox x:Name="ComboDiameterType" HorizontalAlignment="Left" Margin="280,178,0,0" VerticalAlignment="Top" Width="48"
                   ItemsSource="{Binding Path=DiameterList}"
                   SelectedValue="{Binding CurrentDiameterType, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-                  SelectedItem="{Binding CurrentDiameterType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Label Content="Total Coils:" HorizontalAlignment="Left" Margin="33,234,0,0" VerticalAlignment="Top" Height="23"/>
-        <TextBox x:Name="TextTotalCoils" HorizontalAlignment="Left" Height="23" Margin="104,234,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.TotalCoils, StringFormat=F2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="69"/>
-        <Label Content="±" HorizontalAlignment="Left" Margin="174,234,0,0" VerticalAlignment="Top" Height="23" Width="18" FontSize="10"/>
-        <TextBox x:Name="TextTotalCoilsTolerance" HorizontalAlignment="Left" Height="23" Margin="192,234,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.TotalCoilsTolerance, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68"/>
-        <Label Content="Active Coils:&#xD;&#xA;" HorizontalAlignment="Left" Margin="25,262,0,0" VerticalAlignment="Top" Height="24"/>
-        <TextBox x:Name="TextActiveCoils" HorizontalAlignment="Left" Height="24" Margin="104,262,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.ActiveCoils, Mode=OneWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="69" IsReadOnly="True"/>
-        <Label Content="Spring Rate:&#xD;&#xA;" HorizontalAlignment="Left" Margin="25,314,0,0" VerticalAlignment="Top" Height="24"/>
+                  SelectedItem="{Binding CurrentDiameterType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" RenderTransformOrigin="0.333,0.592" Height="21.16"/>
+        <Label Content="Total Coils:" HorizontalAlignment="Left" Margin="32.396,230,0,0" VerticalAlignment="Top" Height="23"/>
+        <TextBox x:Name="TextTotalCoils" HorizontalAlignment="Left" Height="22" Margin="104,232,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.TotalCoils, StringFormat=F2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="69"/>
+        <Label Content="±" HorizontalAlignment="Left" Margin="173,230.16,0,0" VerticalAlignment="Top" Height="23" Width="18" FontSize="10"/>
+        <TextBox x:Name="TextTotalCoilsTolerance" HorizontalAlignment="Left" Height="21.96" Margin="191,232,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.TotalCoilsTolerance, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68"/>
+        <Label Content="Active Coils:&#xD;&#xA;" HorizontalAlignment="Left" Margin="26.58,255,0,0" VerticalAlignment="Top" Height="24"/>
+        <TextBox x:Name="TextActiveCoils" HorizontalAlignment="Left" Height="22" Margin="105,259,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.ActiveCoils, Mode=OneWay, StringFormat=F2, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68" IsReadOnly="True"/>
+
+        <Label Content="Spring Rate:&#xD;&#xA;" HorizontalAlignment="Left" Margin="25,316,0,0" VerticalAlignment="Top" Height="28"/>
         <TextBox x:Name="TextSpringRate" HorizontalAlignment="Left" Height="23" Margin="104,318,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.SpringRate, StringFormat=F3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="69"/>
         <Label Content="±" HorizontalAlignment="Left" Margin="173,318,0,0" VerticalAlignment="Top" Height="23" Width="18" FontSize="10"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="192,318,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.SpringRateTolerance, StringFormat=F3, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="68"/>
         <Label x:Name="LabelSpringRateUnits" Content="{Binding CurrentCompression.UnitSystem.Rate, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,318,0,0" VerticalAlignment="Top" Height="23" Width="20"/>
+
+        <Label Content="Load 1:" HorizontalAlignment="Left" Margin="51,342,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextLoad1" HorizontalAlignment="Left" Height="22" Margin="104,346,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.Load1, StringFormat=F3, Mode=TwoWay}" VerticalAlignment="Top" Width="69"/>
+        <Label Content="±" HorizontalAlignment="Left" Margin="173,346,0,0" VerticalAlignment="Top" Height="22" Width="18" FontSize="10"/>
+        <TextBox x:Name="TextLoad1Tolerance" HorizontalAlignment="Left" Height="22" Margin="192,346,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.Load1Tolerance, StringFormat=F3, Mode=TwoWay}" VerticalAlignment="Top" Width="68"/>
+        <Label x:Name="LabelLoad1Units" Content="{Binding CurrentCompression.UnitSystem.Force, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,346,0,0" VerticalAlignment="Top" Height="23" Width="20"/>
+        <TextBox x:Name="TextLength1" HorizontalAlignment="Left" Height="22" Margin="303,344,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.Length1, StringFormat=F3, Mode=TwoWay}" VerticalAlignment="Top" Width="68"/>
+
+        <Label Content="Load 2:" HorizontalAlignment="Left" Margin="51,369,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextLoad2" HorizontalAlignment="Left" Height="22" Margin="104,373,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.Load2, StringFormat=F3,Mode=TwoWay}" VerticalAlignment="Top" Width="69"/>
+        <Label Content="±" HorizontalAlignment="Left" Margin="173,373,0,0" VerticalAlignment="Top" Height="22" Width="18" FontSize="10"/>
+        <TextBox x:Name="TextLoad2Tolerance" HorizontalAlignment="Left" Height="22" Margin="192,373,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.Load2Tolerance, StringFormat=F3, Mode=TwoWay}" VerticalAlignment="Top" Width="68"/>
+        <Label x:Name="LabelLoad2Units" Content="{Binding CurrentCompression.UnitSystem.Force, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,373,0,0" VerticalAlignment="Top" Height="28" Width="20"/>
+        <TextBox x:Name="TextLength2" HorizontalAlignment="Left" Height="22" Margin="303,373,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.Length2, StringFormat=F3, Mode=TwoWay}" VerticalAlignment="Top" Width="68"/>
+        <Label x:Name="LabelLength1Units" Content="{Binding CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="371,342,0,0" VerticalAlignment="Top" Height="28" Width="20"/>
+        <Label x:Name="LabelLength2Units" Content="{Binding CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="371,370,0,0" VerticalAlignment="Top" Height="28" Width="20"/>
+        <Label Content="@" HorizontalAlignment="Left" Margin="282,342,0,0" VerticalAlignment="Top"/>
+        <Label Content="@" HorizontalAlignment="Left" Margin="282,371,0,0" VerticalAlignment="Top"/>
+        <Label Content="Travel:" HorizontalAlignment="Left" Margin="56,398,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextTravel" HorizontalAlignment="Left" Height="22" Margin="104,400,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.Travel, StringFormat=F3, Mode=TwoWay}" VerticalAlignment="Top" Width="69"/>
+        <Label Content="±" HorizontalAlignment="Left" Margin="173,400,0,0" VerticalAlignment="Top" Height="22" Width="18" FontSize="10"/>
+        <TextBox x:Name="TextTravelTolerance" HorizontalAlignment="Left" Height="22" Margin="192,400,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.TravelTolerance, StringFormat=F3, Mode=TwoWay}" VerticalAlignment="Top" Width="69"/>
+        <Label x:Name="LabelTravelUnits" Content="{Binding CurrentCompression.UnitSystem.Force, Mode=OneWay}" HorizontalAlignment="Left" Margin="260,398,0,0" VerticalAlignment="Top" Height="28" Width="20"/>
+        <Rectangle HorizontalAlignment="Left" Height="150.5" Margin="18,142,0,0" Stroke="Black" VerticalAlignment="Top" Width="316.5" RadiusX="5" RadiusY="5" StrokeThickness="3" Panel.ZIndex="-1" Fill="#FF3232D2">
+
+        </Rectangle>
+        <Rectangle Fill="#FF3232D2" HorizontalAlignment="Left" Height="142.5" Margin="18,297.5,0,0" RadiusY="5" RadiusX="5" Stroke="Black" StrokeThickness="3" VerticalAlignment="Top" Width="378" Panel.ZIndex="-1" MinWidth="1"/>
+        <Rectangle Fill="#FF3232D2" HorizontalAlignment="Left" Height="142" Margin="18,0,0,0" RadiusY="5" RadiusX="5" Stroke="Black" StrokeThickness="3" VerticalAlignment="Top" Width="608" Panel.ZIndex="-1"/>
+        <Rectangle Fill="#FF3232D2" HorizontalAlignment="Left" Height="142" Margin="401,298,0,0" RadiusY="5" RadiusX="5" Stroke="Black" StrokeThickness="3" VerticalAlignment="Top" Width="225"/>
+        <Grid HorizontalAlignment="Left" Height="150" Margin="344,142,0,0" VerticalAlignment="Top" Width="282">
+            <Rectangle Fill="#FF3232D2" RadiusY="5" RadiusX="5" Stroke="Black" StrokeThickness="3"/>
+            <Label Content="Max. Solid Ht.:" HorizontalAlignment="Left" Margin="8,37,0,0" VerticalAlignment="Top"/>
+            <Label Content="Squareness:" HorizontalAlignment="Left" Margin="18,64,0,0" VerticalAlignment="Top"/>
+            <Label Content="Grind Area:" HorizontalAlignment="Left" Margin="22,91,0,0" VerticalAlignment="Top"/>
+            <TextBox x:Name="TextMaxSolid" HorizontalAlignment="Left" Height="22" Margin="94,41,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.MaxSolidHeight, StringFormat=F3, Mode=TwoWay}" VerticalAlignment="Top" Width="68"/>
+            <TextBox x:Name="TextSquareness" HorizontalAlignment="Left" Height="22" Margin="94,68,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.Squareness, StringFormat=F1, Mode=TwoWay}" VerticalAlignment="Top" Width="68"/>
+            <TextBox x:Name="TextGrindArea" HorizontalAlignment="Left" Height="22" Margin="94,95,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.GrindArea, StringFormat=P0, Mode=TwoWay}" VerticalAlignment="Top" Width="68"/>
+            <Label x:Name="LabelMaxSolidUnits" Content="{Binding CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="160,36,0,0" VerticalAlignment="Top" Height="28" Width="20"/>
+            <Label x:Name="LabelSquarenessUnits" Content="°" HorizontalAlignment="Left" Margin="160,63,0,0" VerticalAlignment="Top"/>
+            <Label Content="Coil Direction:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+            <ComboBox x:Name="ComboCoilDirection" HorizontalAlignment="Left" Margin="94,14,0,0" VerticalAlignment="Top" Width="68" Height="22"
+                  ItemsSource="{Binding Path=DirectionList}"
+                  SelectedValue="{Binding CurrentDirection, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                  SelectedItem="{Binding CurrentDirection, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+        <Label Content="Solid Height:" HorizontalAlignment="Left" Margin="414,318,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="TextSolidHeight" HorizontalAlignment="Left" Height="22" Margin="492,322,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.SolidHeight, StringFormat=F3, Mode=OneWay}" VerticalAlignment="Top" Width="68" IsReadOnly="True"/>
+        <Label x:Name="LabelLength1Units_Copy" Content="{Binding CurrentCompression.UnitSystem.Length, Mode=OneWay}" HorizontalAlignment="Left" Margin="560,318,0,0" VerticalAlignment="Top" Height="28" Width="20"/>
 
     </Grid>
 </UserControl>
