@@ -25,12 +25,15 @@ namespace Spring_Thing.ViewModel
             specTypeList = SpecTypes.Specs;
             designTypeList = DesignTypes.Designs;
             directionList = CoilDirections.Directions;
+            endList = EndTypes.Ends;
 
             CurrentMaterial = CurrentCompression.Material;
             CurrentDiameterType = CurrentCompression.DiameterType;
             CurrentSpecType = CurrentCompression.SpringDefinition;
             CurrentDesignType = CurrentCompression.DesignConstraint;
             CurrentDirection = CurrentCompression.CoilDirection;
+            CurrentEnd1 = CurrentCompression.End1Type;
+            CurrentEnd2 = CurrentCompression.End2Type;
 
             materialCollection = new ObservableCollection<Material>(MaterialList);
 
@@ -160,6 +163,15 @@ namespace Spring_Thing.ViewModel
             }
         }
 
+
+        public List<string> EndList
+        {
+            get
+            {
+                return endList;
+            }
+        }
+
         public string CurrentDirection
         {
             get
@@ -174,7 +186,40 @@ namespace Spring_Thing.ViewModel
             }
         }
 
-        
+        public string CurrentEnd1
+        {
+            get
+            {
+                return currentEnd1;
+            }
+
+            set
+            {
+                currentEnd1 = value;
+                CurrentCompression.End1Type = value;
+            }
+        }
+
+        public string CurrentEnd2
+        {
+            get
+            {
+                return currentEnd2;
+            }
+            set
+            {
+                currentEnd2 = value;
+                CurrentCompression.End2Type = value;
+            }
+        }
+
+        public string PartNumber
+        {
+            get
+            {
+                return CurrentCompression.PartNumber;
+            }
+        }
 
         private Compression currentCompression;
         private readonly List<Material> materialList;
@@ -189,7 +234,9 @@ namespace Spring_Thing.ViewModel
         private string currentDesignType;
         private readonly List<string> directionList;
         private string currentDirection;
-        
+        private readonly List<string> endList;
+        private string currentEnd1;
+        private string currentEnd2;      
 
         private ICommand loadButtonClick;
         private ICommand saveButtonClick;

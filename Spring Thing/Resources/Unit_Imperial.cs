@@ -40,6 +40,14 @@ namespace Spring_Thing.Resources
             }
         }
 
+        public string Density
+        {
+            get
+            {
+                return @"lb/in^3";
+            }
+        }
+
         public string Rate
         {
             get
@@ -53,6 +61,14 @@ namespace Spring_Thing.Resources
             get
             {
                 return @"ksi";
+            }
+        }
+
+        public string Frequency
+        {
+            get
+            {
+                return @"Hz";
             }
         }
 

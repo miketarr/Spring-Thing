@@ -11,7 +11,7 @@ namespace Spring_Thing.ViewModel
     {
         public CompressionDockWindowViewModel()
         {
-
+            
         }
     }
 }

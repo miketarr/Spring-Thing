@@ -12,8 +12,10 @@ namespace Spring_Thing.Resources
         string Length { get; }
         string Force { get; }
         string Weight { get; }
+        string Density { get; }
         string Rate { get; }
         string Stress { get; }
+        string Frequency { get; }
 
         double SuggestedLengthTolerance { get; }
         double SuggestedDiameterTolerance { get; }

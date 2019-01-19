@@ -91,6 +91,7 @@
     <Compile Include="Resources\Constant.cs" />
     <Compile Include="Resources\DesignTypes.cs" />
     <Compile Include="Resources\DiameterTypes.cs" />
+    <Compile Include="Resources\EndTypes.cs" />
     <Compile Include="Resources\Material.cs" />
     <Compile Include="Resources\MaterialLibrary.cs" />
     <Compile Include="Resources\IUnit.cs" />

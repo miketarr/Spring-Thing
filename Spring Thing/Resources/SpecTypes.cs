@@ -15,12 +15,12 @@ namespace Spring_Thing.Resources
             Specs = new List<string>();
 
             string SpecRate = @"Rate";
-            string SpecLoads = @"Two Loads";
+            string SpecLoad = @"Two Load";
             string SpecRateOneLoad = @"Rate + Load";
             string SpecDimensional = @"Dimensional";
 
             Specs.Add(SpecRate);
-            Specs.Add(SpecLoads);
+            Specs.Add(SpecLoad);
             Specs.Add(SpecRateOneLoad);
             Specs.Add(SpecDimensional);
         }

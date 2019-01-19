@@ -51,6 +51,7 @@
                 </Style>
             </dock:DockingManager.LayoutItemContainerStyle>
 
+
         </dock:DockingManager>
     </Grid>
 </Window>
