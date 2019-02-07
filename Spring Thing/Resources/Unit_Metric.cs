@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Spring_Thing.Resources
 {
-    public class Unit_Metric_N : IUnit
+    public class Unit_Metric : IUnit
     {
         public string UnitName
         {
@@ -69,6 +69,70 @@ namespace Spring_Thing.Resources
             get
             {
                 return @"Hz";
+            }
+        }
+
+        public double LengthConversion
+        {
+            get
+            {
+                return 1.0;
+            }
+        }
+
+        public double ForceConversion
+        {
+            get
+            {
+                return 1.0;
+            }
+        }
+
+        public double WeightConversion
+        {
+            get
+            {
+                return 1.0;
+            }
+        }
+
+        public double DensityConversion
+        {
+            get
+            {
+                return 1.0;
+            }
+        }
+
+        public double RateConversion
+        {
+            get
+            {
+                return 1.0;
+            }
+        }
+
+        public double StressConversion
+        {
+            get
+            {
+                return 1.0;
+            }
+        }
+
+        public double MaterialStressConversion
+        {
+            get
+            {
+                return 1.0;
+            }
+        }
+
+        public double SpringEquationConversion
+        {
+            get
+            {
+                return 1E-6;
             }
         }
 

@@ -19,7 +19,8 @@ namespace Spring_Thing.ViewModel
         public CompressionViewModel()
         {
             currentCompression = new Compression();
-            
+
+            unitSystemList = UnitSystems.Systems;
             materialList = MaterialLibrary.Materials;
             diameterList = DiameterTypes.Diameters;
             specTypeList = SpecTypes.Specs;
@@ -27,6 +28,7 @@ namespace Spring_Thing.ViewModel
             directionList = CoilDirections.Directions;
             endList = EndTypes.Ends;
 
+            CurrentUnitSystem = CurrentCompression.Units;
             CurrentMaterial = CurrentCompression.Material;
             CurrentDiameterType = CurrentCompression.DiameterType;
             CurrentSpecType = CurrentCompression.SpringDefinition;
@@ -86,7 +88,7 @@ namespace Spring_Thing.ViewModel
             {
                 currentMaterial = value;
                 CurrentCompression.Material = value;
-                Console.WriteLine("Changed material to " + CurrentCompression.Material.MaterialName);
+                //Console.WriteLine("Changed material to " + CurrentCompression.Material.MaterialName);
             }
         }
 
@@ -155,6 +157,26 @@ namespace Spring_Thing.ViewModel
             }
         }
 
+        public List<string> UnitSystemList
+        {
+            get
+            {
+                return unitSystemList;
+            }
+        }
+        public string CurrentUnitSystem
+        {
+            get
+            {
+                return currentUnitSystem;
+            }
+            set
+            {
+                currentUnitSystem = value;
+                CurrentCompression.Units = value;
+
+            }
+        }
         public List<string> DirectionList
         {
             get
@@ -162,7 +184,7 @@ namespace Spring_Thing.ViewModel
                 return directionList;
             }
         }
-
+        
 
         public List<string> EndList
         {
@@ -236,7 +258,9 @@ namespace Spring_Thing.ViewModel
         private string currentDirection;
         private readonly List<string> endList;
         private string currentEnd1;
-        private string currentEnd2;      
+        private string currentEnd2;
+        private string currentUnitSystem;
+        private readonly List<string> unitSystemList;
 
         private ICommand loadButtonClick;
         private ICommand saveButtonClick;

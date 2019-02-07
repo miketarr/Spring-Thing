@@ -1,0 +1,3 @@
+﻿Assumptions:
+
+	CEG is 50% of the way through the wire, GrindArea around

@@ -42,11 +42,11 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                return wireDia;
+                return wireDia / UnitSystem.LengthConversion;
             }
             set
             {
-                wireDia = value;
+                wireDia = value * UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -55,11 +55,11 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                return wireDiaTolerance;
+                return wireDiaTolerance / UnitSystem.LengthConversion;
             }
             set
             {
-                wireDiaTolerance = value;
+                wireDiaTolerance = value * UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -80,10 +80,13 @@ namespace Spring_Thing.Springs
 
         public double Diameter
         {
-            get { return diameter; }
+            get
+            {
+                return diameter / UnitSystem.LengthConversion;
+            }
             set
             {
-                diameter = value;
+                diameter = value * UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -93,11 +96,11 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                return diameterTolerance;
+                return diameterTolerance / UnitSystem.LengthConversion;
             }
             set
             {
-                diameterTolerance = value;
+                diameterTolerance = value * UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -110,7 +113,7 @@ namespace Spring_Thing.Springs
                 {
                     case "Rate":
                     case "Dimensional":
-                    default:
+                    default:;
                         break;
                     case "TwoLoad":
                         freeLength = (Length1 + (Load1 / SpringRate));
@@ -120,11 +123,11 @@ namespace Spring_Thing.Springs
                         break;
                 }
 
-                return freeLength;
+                return freeLength / UnitSystem.LengthConversion;
             }
             set
             {
-                freeLength = value;
+                freeLength = value * UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -133,11 +136,11 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                return freeLengthTolerance;
+                return freeLengthTolerance / UnitSystem.LengthConversion;
             }
             set
             {
-                freeLengthTolerance = value;
+                freeLengthTolerance = value * UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -217,26 +220,30 @@ namespace Spring_Thing.Springs
                     case "Rate":                       
                     case "Rate + Load":
                     default:
-                        return springRate;
+                        break;
+
                     case "Two Load":
-                        springRate = (Load2 - Load1) / Math.Abs(Length1 - Length2);
-                        return springRate;
+                        springRate = ((Load2 - Load1) / Math.Abs(Length1 - Length2)) * UnitSystem.RateConversion;
+                        break;
+                        
                     case "Dimensional":
-                        if(CrossSection == "Round")
+                        if (CrossSection == "Round")
                         {
-                            springRate = ((Material.GMod * Math.Pow(WireDia, 4)) / (8.0 * ActiveCoils * Math.Pow(MeanDiameter, 3)));
+                            springRate = ((Material.GMod * UnitSystem.SpringEquationConversion * Math.Pow(WireDia, 4)) / (8.0 * ActiveCoils * Math.Pow(MeanDiameter, 3))) * UnitSystem.RateConversion;
                         }
                         else if (CrossSection == "Rectangular")
                         {
-                            springRate = (Material.EMod * WireWidth * Math.Pow(WireThickness, 3)) / (ActiveCoils * Math.Pow(Diameter, 3)) * K2(Diameter, WireThickness, WireWidth);
+                            springRate = ((Material.EMod * WireWidth * Math.Pow(WireThickness, 3)) / (ActiveCoils * Math.Pow(Diameter, 3)) * K2) * UnitSystem.RateConversion;
                         }
-                        
-                        return springRate;
+                        break;
                 }
+
+                return springRate / UnitSystem.RateConversion;
             }
+
             set
             {
-                springRate = value;
+                springRate = value * UnitSystem.RateConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -245,13 +252,13 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                return springRateTolerance;
+                return springRateTolerance / UnitSystem.RateConversion;
             }
             set
             {
                 if (value >= 0.0)
                 {
-                    springRateTolerance = value;
+                    springRateTolerance = value * UnitSystem.RateConversion;
                     OnPropertyChanged(string.Empty);
                 }
             }
@@ -263,19 +270,19 @@ namespace Spring_Thing.Springs
             {
                 if(SpringDefinition == "Rate" || SpringDefinition == "Dimensional")
                 {
-                    load1 = SpringRate * (Travel * SpringConstant.SuggestedLength1Proportion);
+                    load1 = (SpringRate * (Travel * SpringConstant.SuggestedLength1Proportion)) / UnitSystem.ForceConversion;
                 }
                 else if(SpringDefinition == "Rate + Load")
                 {
-                    load1 = 0.0;
+                    return 0.0;
                 }
                 
-                return load1;
+                return load1 * UnitSystem.ForceConversion;
             }
 
             set
             {
-                load1 = value;
+                load1 = value / UnitSystem.ForceConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -286,21 +293,21 @@ namespace Spring_Thing.Springs
             {
                 if (SpringDefinition == "Rate" || SpringDefinition == "Dimensional")
                 {
-                    load1Tolerance = Load1 * SpringConstant.SuggestedLoadTolerance;
+                    load1Tolerance = Load1 * SpringConstant.SuggestedLoadTolerance / UnitSystem.ForceConversion;
                 }
                 else if (SpringDefinition == "Rate + Load")
                 {
                     load1Tolerance = 0.0;
                 }
 
-                return load1Tolerance;
+                return load1Tolerance * UnitSystem.ForceConversion;
             }
 
             set
             {
                 if (value >= 0.0)
                 {
-                    load1Tolerance = value;
+                    load1Tolerance = value / UnitSystem.ForceConversion;
                     OnPropertyChanged(string.Empty);
                 }
             }
@@ -312,14 +319,14 @@ namespace Spring_Thing.Springs
             {
                 if (SpringDefinition == "Rate" || SpringDefinition == "Dimensional")
                 {
-                    load2 = SpringRate * (Travel * SpringConstant.SuggestedLength2Proportion);
+                    load2 = (SpringRate * (Travel * SpringConstant.SuggestedLength2Proportion)) / UnitSystem.ForceConversion;
                 }
                 
-                return load2;
+                return load2 * UnitSystem.ForceConversion;
             }
             set
             {
-                load2 = value;
+                load2 = value / UnitSystem.ForceConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -330,17 +337,17 @@ namespace Spring_Thing.Springs
             {
                 if (SpringDefinition == "Rate" || SpringDefinition == "Dimensional")
                 {
-                    load2Tolerance = Load2 * SpringConstant.SuggestedLoadTolerance;
+                    load2Tolerance = Load2 * SpringConstant.SuggestedLoadTolerance / UnitSystem.ForceConversion;
                 }
 
-                return load2Tolerance;
+                return load2Tolerance * UnitSystem.ForceConversion;
             }
 
             set
             {
                 if (value >= 0.0)
                 {
-                    load2Tolerance = value;
+                    load2Tolerance = value / UnitSystem.ForceConversion;
                     OnPropertyChanged(string.Empty);
                 }
 
@@ -353,29 +360,33 @@ namespace Spring_Thing.Springs
             {
                 if (SpringDefinition == "Rate" || SpringDefinition == "Dimensional")
                 {
-                    length1 = (FreeLength - (Travel * SpringConstant.SuggestedLength1Proportion));
+                    length1 = (FreeLength - (Travel * SpringConstant.SuggestedLength1Proportion)) / UnitSystem.LengthConversion;
                 }
                 else if (SpringDefinition == "Rate + Load")
                 {
-                    length1 = FreeLength;
+                    length1 = FreeLength / UnitSystem.LengthConversion;
                 }
 
-                return length1;
+                return length1 * UnitSystem.LengthConversion;
+                
             }
 
             set
             {
-                length1 = value;
+                length1 = value / UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
 
         public double Length1Tolerance
         {
-            get { return length1Tolerance; }
+            get
+            {
+                return length1Tolerance / UnitSystem.LengthConversion;
+            }
             set
             {
-                length1Tolerance = value;
+                length1Tolerance = value * UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -386,25 +397,32 @@ namespace Spring_Thing.Springs
             {
                 if (SpringDefinition == "Rate" || SpringDefinition == "Dimensional")
                 {
-                    length2 = (FreeLength - (Travel * SpringConstant.SuggestedLength2Proportion));
+                    length2 = (FreeLength - (Travel * SpringConstant.SuggestedLength2Proportion)) / UnitSystem.LengthConversion;
                 }
 
-                return length2;
+                return length2 * UnitSystem.LengthConversion;
             }
 
             set
             {
-                length2 = value;
+                length2 = value / UnitSystem.LengthConversion;
+                if(SpringDefinition == "Rate + Load")
+                {
+                    Load2 = (FreeLength - value) * SpringRate;
+                }
                 OnPropertyChanged(string.Empty);
             }
         }
 
         public double Length2Tolerance
         {
-            get { return length2Tolerance; }
+            get
+            {
+                return length2Tolerance * UnitSystem.LengthConversion;
+            }
             set
             {
-                length2Tolerance = value;
+                length2Tolerance = value / UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -415,23 +433,25 @@ namespace Spring_Thing.Springs
             {
                 switch (SpringDefinition)
                 {
-                    case "Rate":
+
                     case "Dimensional":
-                    default:
-                        break; ;
+                    default:                      
+                        break;
                     case "Two Load":
-                        travel = (FreeLength - SolidHeight);
+                    case "Rate":
+                        travel = (FreeLength - SolidHeight) / UnitSystem.LengthConversion;
                         break;
                     case "Rate + Load":
-                        travel = (Load2 / SpringRate);
+
+                        travel = (Load2 / SpringRate) / UnitSystem.LengthConversion;
                         break;
                 }
 
-                return travel;
+                return travel * UnitSystem.LengthConversion;
             }
             set
             {
-                travel = value;
+                travel = value / UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -440,11 +460,11 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                return travelTolerance;
+                return travelTolerance * UnitSystem.LengthConversion;
             }
             set
             {
-                travelTolerance = value;
+                travelTolerance = value / UnitSystem.LengthConversion;
                 OnPropertyChanged(string.Empty);
             }
         }
@@ -464,7 +484,9 @@ namespace Spring_Thing.Springs
                     OnPropertyChanged(string.Empty);
             }
         }
+
         /// <summary>
+        /// 
         /// Spring performance specification - load-based, rate based, or some weird combination
         /// </summary>
         public string SpringDefinition
@@ -489,14 +511,14 @@ namespace Spring_Thing.Springs
                 {
                     end1Type = value;
 
-                    if (End1Type == "CENG" || End1Type == "OENG")
+                    if (end1Type == "CENG" || end1Type == "OENG")
                     {
                         GrindAreaEnd1 = 0.0;
                     }
 
                     if(MatchingEnds == true)
                     {
-                        End2Type = End1Type;
+                        End2Type = end1Type;
                     }
 
                     OnPropertyChanged(string.Empty);
@@ -516,7 +538,7 @@ namespace Spring_Thing.Springs
                 {
                     end2Type = value;
 
-                    if(End2Type == "CENG" || End2Type == "OENG")
+                    if(end2Type == "CENG" || end2Type == "OENG")
                     {
                         GrindAreaEnd2 = 0.0;
                     }
@@ -574,6 +596,7 @@ namespace Spring_Thing.Springs
                 {
                     GrindAreaEnd2 = GrindAreaEnd1;
                     End2Type = End1Type;
+                    TipGap2 = TipGap1;
                 }
 
                 OnPropertyChanged(string.Empty);
@@ -582,12 +605,15 @@ namespace Spring_Thing.Springs
 
         public double MaxSolidHeight
         {
-            get { return maxSolidHeight; }
+            get
+            {
+                return maxSolidHeight * UnitSystem.LengthConversion;
+            }
             set
             {
                 if(value >= 0.0)
                 {
-                    maxSolidHeight = value;
+                    maxSolidHeight = value / UnitSystem.LengthConversion;
                     OnPropertyChanged(string.Empty);
                 }
             }
@@ -598,11 +624,8 @@ namespace Spring_Thing.Springs
             get { return coilDirection; }
             set
             {
-                if(Enum.TryParse(value, out Hand hand))
-                {
-                    coilDirection = value;
-                    OnPropertyChanged(string.Empty);
-                }
+                coilDirection = value;
+                OnPropertyChanged(string.Empty);                
             }
         }
 
@@ -621,12 +644,16 @@ namespace Spring_Thing.Springs
 
         public double WireWidth
         {
-            get { return wireWidth; }
+            get
+            {
+                return wireWidth * UnitSystem.LengthConversion;
+            }
+
             set
             {
                 if(value >= 0.0)
                 {
-                    wireWidth = value;
+                    wireWidth = value / UnitSystem.LengthConversion;
                     OnPropertyChanged(string.Empty);
                 }
             }
@@ -634,12 +661,101 @@ namespace Spring_Thing.Springs
 
         public double WireThickness
         {
-            get { return wireThickness; }
+            get
+            {
+                return wireThickness * UnitSystem.LengthConversion;
+            }
             set
             {
                 if(value >= 0.0)
                 {
-                    wireThickness = value;
+                    wireThickness = value / UnitSystem.LengthConversion;
+                    OnPropertyChanged(string.Empty);
+                }
+            }
+        }
+
+        public double WorksIn
+        {
+            get
+            {
+                return worksIn * UnitSystem.LengthConversion;
+            }
+            set
+            {
+                if(value >= 0.0)
+                {
+                    worksIn = value / UnitSystem.LengthConversion;
+                    OnPropertyChanged(string.Empty);
+                }
+            }
+        }
+
+        public double WorksOver
+        {
+            get
+            {
+                return worksOver * UnitSystem.LengthConversion;
+            }
+            set
+            {
+                if(value >= 0.0)
+                {
+                    worksOver = value / UnitSystem.LengthConversion;
+                    OnPropertyChanged(string.Empty);
+                }
+            }
+        }
+
+        public double DeadWire
+        {
+            get
+            {
+                return deadWire;
+            }
+            set
+            {
+                if(value >= 0.0)
+                {
+                    deadWire = value;
+                    OnPropertyChanged(string.Empty);
+                }
+            }
+        }
+
+        public double TipGap1
+        {
+            get
+            {
+                return tipGap1 * UnitSystem.LengthConversion;
+            }
+            set
+            {
+                if(value >= 0.0)
+                {
+                    tipGap1 = value / UnitSystem.LengthConversion;
+
+                    if(MatchingEnds == true)
+                    {
+                        TipGap2 = TipGap1;
+                    }
+
+                    OnPropertyChanged(string.Empty);
+                }
+            }
+        }
+
+        public double TipGap2
+        {
+            get
+            {
+                return tipGap2 * UnitSystem.LengthConversion;
+            }
+            set
+            {
+                if (value >= 0.0)
+                {
+                    tipGap2 = value / UnitSystem.LengthConversion;
                     OnPropertyChanged(string.Empty);
                 }
             }
@@ -658,13 +774,13 @@ namespace Spring_Thing.Springs
                     switch (diameterType)
                     {
                         case "OD":
-                            return diameter - wireDia;
+                            return Diameter - WireDia;
                         case "ID":
-                            return diameter + wireDia;
+                            return Diameter + WireDia;
                         case "MD":
-                            return diameter;
+                            return Diameter;
                         default:
-                            return diameter;
+                            return Diameter;
                     }
                 }
                 else if(CrossSection == "Rectangular")
@@ -672,18 +788,18 @@ namespace Spring_Thing.Springs
                     switch (diameterType)
                     {
                         case "OD":
-                            return diameter - wireWidth;
+                            return Diameter - WireWidth;
                         case "ID":
-                            return diameter + wireWidth;
+                            return Diameter + WireWidth;
                         case "MD":
-                            return diameter;
+                            return Diameter;
                         default:
-                            return diameter;
+                            return Diameter;
                     }
                 }
                 else
                 {
-                    return diameter;        //Should not get here
+                    return Diameter;        //Should not get here
                 }
             }
         }
@@ -702,9 +818,10 @@ namespace Spring_Thing.Springs
                         switch (End1Type)
                         {
                             case "CEG":
+                            case "CENG":
                                 activecoils -= SpringConstant.InactiveWire;
                                 break;
-                            case "CENG":
+
                             case "OENG":
                                 break;
                             case "OEG":
@@ -715,9 +832,10 @@ namespace Spring_Thing.Springs
                         switch (End2Type)
                         {
                             case "CEG":
+                            case "CENG":
                                 activecoils -= SpringConstant.InactiveWire;
                                 break;
-                            case "CENG":
+
                             case "OENG":
                                 break;
                             case "OEG":
@@ -732,11 +850,11 @@ namespace Spring_Thing.Springs
                         {
                             default:
                             case "Round":
-                                activecoils = (Material.GMod * Math.Pow(WireDia, 4)) / (8.0 * SpringRate * Math.Pow(MeanDiameter, 3));
+                                activecoils = (Material.GMod * UnitSystem.SpringEquationConversion * Math.Pow(WireDia, 4)) / (8.0 * SpringRate * Math.Pow(MeanDiameter, 3));
                                 break;
 
                             case "Rectangular":
-                                activecoils = (Material.EMod * WireWidth * Math.Pow(WireThickness, 3)) / (SpringRate * Math.Pow(Diameter, 3)) * K2(Diameter, WireThickness, WireWidth);
+                                activecoils = (Material.EMod * WireWidth * Math.Pow(WireThickness, 3)) / (SpringRate * Math.Pow(Diameter, 3)) * K2;
                                 break;
                         }
 
@@ -793,7 +911,9 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                return (WireLength * (0.25 * Math.Pow(WireDia, 2) * Math.PI) * Material.Density);
+                double wt = (WireLength * (0.25 * Math.Pow(WireDia, 2) * Math.PI) * Material.Density) ;
+
+                return wt;
             }
         }
 
@@ -811,14 +931,38 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                switch (CrossSection)
+                double thickness = WireDia;
+                if(CrossSection == "Rectangular")
                 {
-                    default:
-                    case "Round":
-                        return (TotalCoils * WireDia) - (GrindArea * WireDia * 2.0);
-                    case "Rectangular":
-                        return (TotalCoils * WireThickness) - (GrindArea * WireThickness * 2.0);
+                    thickness = WireThickness;
                 }
+   
+                double solid = ((TotalCoils + 1) * thickness);
+
+                switch (End1Type)
+                {
+                    case "CENG":
+                    case "OENG":
+                        break;
+                    case "CEG":
+                    case "OEG":
+                        solid -= (0.5 * thickness);
+                        break;
+                }
+
+                switch (End2Type)
+                {
+                    case "CENG":
+                    case "OENG":
+                        break;
+                    case "CEG":
+                    case "OEG":
+                        solid -= 0.5 * thickness;
+                        break;
+                }
+
+                return solid;
+       
             }
         }
 
@@ -838,9 +982,36 @@ namespace Spring_Thing.Springs
             }
         }
 
+        public double K2
+        {
+            get
+            {
+                if(WireThickness <= 0.0 || WireWidth <= 0.0)
+                {
+                    return 0.0;
+                }
+
+                double bt = WireThickness / WireWidth;
+                
+                if(bt < 1.0)
+                {
+                    bt = 1 / bt;
+                }
+
+
+                // Based on curve fit from M.Wahl 1st Edition p.206
+                double[] t = new double[] { 0.0004, -0.0082, 0.0567, 0.1615 };
+
+                double k2 = (t[0] * Math.Pow(bt, 3)) + (t[1] * Math.Pow(bt, 2)) + (t[2] * bt) + t[3];
+
+                return k2;
+            }
+        }
+
         #endregion
 
         #region Private Methods
+
         private double GrindArea
         {
             get
@@ -897,6 +1068,12 @@ namespace Spring_Thing.Springs
         private string coilDirection;
         private double squareness;
         private string crossSection;
+        private double deadWire;
+        private double worksIn;
+        private double worksOver;
+        private double tipGap1;
+        private double tipGap2;
+
         #endregion
 
         public enum EndType {
@@ -909,38 +1086,7 @@ namespace Spring_Thing.Springs
             [Description("Open-End Not Ground")]
             OENG }
 
-        public double K2(double dia, double thickness, double width)
-        {
-            if(CrossSection == "Round") { return 0.0; }
 
-            double k2;
-            double[] a;
-            double b1;
-            double b2;
-            double b3;
-            double bot;
-            double c;
-
-            if (thickness >= width)
-            {
-                bot = thickness / width;
-                a = new double[] { -1.481, -2.18, 3.069, -1.807, 0.433, -0.662, -0.362, 1.37, -1.841 };
-                c = dia / thickness;
-            }
-            else
-            {
-                bot = width / thickness;
-                a = new double[] { -1.676, -1.941, 2.974, -1.586, 0.429, -0.72, -0.83, 2.45, -1.942 };
-                c = dia / width;
-            }
-
-            b1 = (c + a[0]) / (a[1] * c + a[2]);
-            b2 = (c + a[3]) / (a[4] * c + a[5]);
-            b3 = (c + a[6]) / (a[7] * c + a[8]);
-            k2 = (bot + b1) / (b2 * bot + b3);
-
-            return k2;
-        }
 
         public Compression()
         {
@@ -951,8 +1097,7 @@ namespace Spring_Thing.Springs
             Description = string.Empty;
             CreatedBy = "User";
 
-            Units = "Imperial";
-            UnitSystem = new Unit_Imperial();
+            Units = "US Customary";
 
             Material = MaterialLibrary.SelectMaterial("Stainless 302");
 
@@ -989,6 +1134,12 @@ namespace Spring_Thing.Springs
 
             CoilDirection = "Right";
             CrossSection = "Round";
+
+            DeadWire = 0.0;
+            WorksIn = 0.0;
+            WorksOver = 0.0;
+            TipGap1 = 0.0;
+            TipGap2 = 0.0;
 
         }
     }

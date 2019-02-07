@@ -96,8 +96,9 @@
     <Compile Include="Resources\MaterialLibrary.cs" />
     <Compile Include="Resources\IUnit.cs" />
     <Compile Include="Resources\SpecTypes.cs" />
-    <Compile Include="Resources\Unit_Imperial.cs" />
-    <Compile Include="Resources\Unit_Metric_N.cs" />
+    <Compile Include="Resources\UnitSystems.cs" />
+    <Compile Include="Resources\Unit_US.cs" />
+    <Compile Include="Resources\Unit_Metric.cs" />
     <Compile Include="Resources\XMLStuff.cs" />
     <Compile Include="Springs\Compression.cs" />
     <Compile Include="Springs\Extension.cs" />
@@ -171,6 +172,9 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Documents\Assumptions.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

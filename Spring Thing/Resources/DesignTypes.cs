@@ -12,15 +12,17 @@ namespace Spring_Thing.Resources
 
         static DesignTypes()
         {
-            Designs = new List<string>();
 
             string DesignWireDia = @"Wire Diameter";
             string DesignRate = @"Spring Rate";
             string DesignStress = @"Stress";
 
-            Designs.Add(DesignWireDia);
-            Designs.Add(DesignRate);
-            Designs.Add(DesignStress);
+            Designs = new List<string>()
+            {
+                DesignWireDia,
+                DesignRate,
+                DesignStress
+            };
         }
     }
 }

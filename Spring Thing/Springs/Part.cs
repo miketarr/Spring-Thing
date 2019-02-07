@@ -80,70 +80,57 @@ namespace Spring_Thing.Springs
         public virtual string SpringType { get; set; }
         public virtual string CrossSection { get; set; }
 
-        public string Units { get; set; }
         [XmlIgnore()]
-        public IUnit UnitSystem { get; set; }
+        public IUnit UnitSystem
+        {
+            get
+            {
+                return unitSystem;
+            }
+
+            private set
+            {
+                unitSystem = value;
+                OnPropertyChanged(string.Empty);
+            }
+        }
+
+        public string Units
+        {
+            get
+            {
+                return units;
+            }
+            set
+            {
+                units = value;
+                OnPropertyChanged(string.Empty);
+                if(value == "Metric")
+                {
+                    UnitSystem = new Unit_Metric();
+                    if(Material != null)
+                    {
+                        Material.Units = "Metric";
+                    }
+                    
+                }
+                else if(value == "US Customary")
+                {
+                    UnitSystem = new Unit_US();
+                    if(Material != null)
+                    {
+                        Material.Units = "US Customary";
+                    }
+                    
+                }
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string name)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));          
-        }
-
-        //public virtual void Calculate()
-        //{
-
-        //}
-
-        public enum Hand
-        {
-            [Description("Right")]
-            Right,
-            [Description("Left")]
-            Left,
-            [Description("Optional")]
-            Optional
-        }
-
-        //public enum DiaType
-        //{
-        //    [Description("Outside Diameter")]
-        //    OD,
-        //    [Description("Inside Diameter")]
-        //    ID,
-        //    [Description("Mean Diameter")]
-        //    MD
-        //}
-
-        public enum DesignType
-        {
-            [Description("Wire Diameter")]
-            WireDia,
-            [Description("Spring Rate")]
-            SpringRate,
-            [Description("Stress")]
-            Stress
-        }
-
-        //public enum SpecType
-        //{
-        //    [Description("Spring Rate")]
-        //    Rate,
-        //    [Description("Two Loads")]
-        //    TwoLoad,
-        //    [Description("Rate + Load")]
-        //    RateOneLoad,
-        //    [Description("Dimensional")]
-        //    Dimensional
-        //}
-
-        public enum Unit
-        {
-            [Description("Imperial")]
-            Imperial,
-            [Description("Metric")]
-            Metric
         }
 
         private Material material;
@@ -153,5 +140,8 @@ namespace Spring_Thing.Springs
         private DateTime dateCreated;
         private DateTime lastUpdated;
         private string description;
+        private string units;
+        private IUnit unitSystem;
+
     }
 }

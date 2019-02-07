@@ -24,6 +24,8 @@ namespace Spring_Thing.View
         private List<TextBox> LoadTextBoxes;
         private List<TextBox> DimensionalTextBoxes;
         private List<TextBox> RatePlusLoadTextBoxes;
+        private List<TextBox> AllTextBoxes;
+        private List<Control> MatchingEndsList;
 
         public CompressionDockWindowView()
         {
@@ -36,56 +38,96 @@ namespace Spring_Thing.View
 
         private void InitializeTextBoxes()
         {
-            RateTextBoxes = new List<TextBox>();
-            RateTextBoxes.Add(TextLoad1);
-            RateTextBoxes.Add(TextLoad2);
-            RateTextBoxes.Add(TextLoad1Tolerance);
-            RateTextBoxes.Add(TextLoad2Tolerance);
-            RateTextBoxes.Add(TextLength1);
-            RateTextBoxes.Add(TextLength2);
-            RateTextBoxes.Add(TextTotalCoils);
-            RateTextBoxes.Add(TextTotalCoilsTolerance);
+            RateTextBoxes = new List<TextBox>
+            {
+                TextLoad1,
+                TextLoad2,
+                TextLoad1Tolerance,
+                TextLoad2Tolerance,
+                TextLength1,
+                TextLength2,
+                TextTotalCoils,
+                TextTotalCoilsTolerance,
+                TextTravel
+            };
 
-            LoadTextBoxes = new List<TextBox>();
-            LoadTextBoxes.Add(TextSpringRate);
-            LoadTextBoxes.Add(TextSpringRateTolerance);
-            LoadTextBoxes.Add(TextTravel);
-            LoadTextBoxes.Add(TextTravelTolerance);
-            LoadTextBoxes.Add(TextTotalCoils);
-            LoadTextBoxes.Add(TextTotalCoilsTolerance);
-            LoadTextBoxes.Add(TextFreeLength);
-            LoadTextBoxes.Add(TextFreeLengthTolerance);
+            LoadTextBoxes = new List<TextBox>
+            {
+                TextSpringRate,
+                TextSpringRateTolerance,
+                TextTravel,
+                TextTravelTolerance,
+                TextTotalCoils,
+                TextTotalCoilsTolerance,
+                TextFreeLength,
+                TextFreeLengthTolerance
+            };
 
-            DimensionalTextBoxes = new List<TextBox>();
-            DimensionalTextBoxes.Add(TextLoad1);
-            DimensionalTextBoxes.Add(TextLoad2);
-            DimensionalTextBoxes.Add(TextLoad1Tolerance);
-            DimensionalTextBoxes.Add(TextLoad2Tolerance);
-            DimensionalTextBoxes.Add(TextLength1);
-            DimensionalTextBoxes.Add(TextLength2);
-            DimensionalTextBoxes.Add(TextSpringRate);
-            DimensionalTextBoxes.Add(TextSpringRateTolerance);
-            DimensionalTextBoxes.Add(TextTravel);
-            DimensionalTextBoxes.Add(TextTravelTolerance);
+            DimensionalTextBoxes = new List<TextBox>
+            {
+                TextLoad1,
+                TextLoad2,
+                TextLoad1Tolerance,
+                TextLoad2Tolerance,
+                TextLength1,
+                TextLength2,
+                TextSpringRate,
+                TextSpringRateTolerance,
+                TextTravel
+            };
 
-            RatePlusLoadTextBoxes = new List<TextBox>();
-            RatePlusLoadTextBoxes.Add(TextLoad1);
-            RatePlusLoadTextBoxes.Add(TextLoad1Tolerance);
-            RatePlusLoadTextBoxes.Add(TextTotalCoilsTolerance);
-            RatePlusLoadTextBoxes.Add(TextTotalCoils);
-            RatePlusLoadTextBoxes.Add(TextTravel);
-            RatePlusLoadTextBoxes.Add(TextTravelTolerance);
+            RatePlusLoadTextBoxes = new List<TextBox>
+            {
+                TextLoad1,
+                TextLoad1Tolerance,
+                TextTotalCoilsTolerance,
+                TextTotalCoils,
+                TextTravel,
+                TextTravelTolerance
+            };
 
+            AllTextBoxes = new List<TextBox>
+            {
+                TextSpringRate,
+                TextSpringRateTolerance,
+                TextTravel,
+                TextTravelTolerance,
+                TextTotalCoils,
+                TextTotalCoilsTolerance,
+                TextFreeLength,
+                TextFreeLengthTolerance,
+                TextLoad1,
+                TextLoad2,
+                TextLoad1Tolerance,
+                TextLoad2Tolerance,
+                TextLength1,
+                TextLength2,
+                TextTravel,
+                TextTravelTolerance
+            };
 
+            ToggleReadOnlyStatus();
+
+            MatchingEndsList = new List<Control>
+            {
+                TextTipGap2,
+                TextGrindAreaEnd2,
+                ComboEnd2
+            };
+
+            ToggleMatchingEndStatus(true);
         }
 
-        private void ToggleTextBoxes(List<TextBox> list, bool isenabled)
+        private void MakeTextBoxesReadOnly(List<TextBox> list, bool isreadonly)
         {
             if(list == null) { return; }
 
             foreach(TextBox t in list)
             {
-                t.IsReadOnly = !isenabled;
+                if (t != null)
+                {
+                    t.IsReadOnly = isreadonly;
+                }
             }
         }
 
@@ -133,56 +175,53 @@ namespace Spring_Thing.View
 
         private void CheckBoxMatchingEnds_Checked(object sender, RoutedEventArgs e)
         {
-            if(CheckBoxMatchingEnds.IsChecked == true)
-            {
-                ComboEnd2.IsEnabled = false;
-                TextGrindAreaEnd2.IsEnabled = false;
-            }
+            ToggleMatchingEndStatus(true);
         }
 
         private void CheckBoxMatchingEnds_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (CheckBoxMatchingEnds.IsChecked == false)
-            {
-                ComboEnd2.IsEnabled = true;
-                TextGrindAreaEnd2.IsEnabled = true;
-            }
+            ToggleMatchingEndStatus(false);
         }
 
         private void ComboSpringDefinition_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            ToggleReadOnlyStatus(); 
+        }
+
+        private void ToggleReadOnlyStatus()
+        {
             string selection = ComboSpringDefinition.SelectedValue.ToString();
 
-            if(selection == "Rate")
+            MakeTextBoxesReadOnly(AllTextBoxes, false);
+
+            if (selection == "Rate")
             {
-                ToggleTextBoxes(RateTextBoxes, true);
-            }
-            else
-            {
-                ToggleTextBoxes(RateTextBoxes, false);
+                MakeTextBoxesReadOnly(RateTextBoxes, true);
             }
 
-
-            if(selection == "Two Load")
+            if (selection == "Two Load")
             {
-                ToggleTextBoxes(LoadTextBoxes, true);
-            }
-            else
-            {
-                ToggleTextBoxes(LoadTextBoxes, false);
+                MakeTextBoxesReadOnly(LoadTextBoxes, true);
             }
 
-            if(selection == "Dimensional")
+            if (selection == "Dimensional")
             {
-                ToggleTextBoxes(DimensionalTextBoxes, true);
+                MakeTextBoxesReadOnly(DimensionalTextBoxes, true);
             }
-            else
+        }
+
+        private void ToggleMatchingEndStatus(bool matching)
+        {
+            if (CheckBoxMatchingEnds.IsChecked == matching && MatchingEndsList != null)
             {
-                ToggleTextBoxes(DimensionalTextBoxes, false);
+                foreach (Control c in MatchingEndsList)
+                {
+                    if (c != null)
+                    {
+                        c.IsEnabled = !matching;
+                    }
+                }
             }
-
-
-                  
         }
     }
 }

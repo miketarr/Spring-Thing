@@ -17,6 +17,15 @@ namespace Spring_Thing.Resources
         string Stress { get; }
         string Frequency { get; }
 
+        double LengthConversion { get; }
+        double WeightConversion { get; }
+        double ForceConversion { get; }
+        double DensityConversion { get; }
+        double RateConversion { get; }
+        double StressConversion { get; }
+        double MaterialStressConversion { get; }
+        double SpringEquationConversion { get; }
+
         double SuggestedLengthTolerance { get; }
         double SuggestedDiameterTolerance { get; }
         double SuggestedWireTolerance { get; }
