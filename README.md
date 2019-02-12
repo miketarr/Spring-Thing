@@ -8,6 +8,8 @@ I've found most websites offering spring calculators to be extremely rudimentary
   
 This is a personal project to continue developing my C# coding skills and to use them to develop a commerically acceptable product suitable for use in an engineering environment. This code is offered as-is and I make no guarantees about the calculations accuracy or precision. If you're using this, at this stage, to design parts, shame on you. 
 
+It requires .NET Framework 4.6.1. 
+
 All equations and material properties are available from publically-available websites or textbooks. I have tried to cite the sources of material properties. 
 
 Current features:
