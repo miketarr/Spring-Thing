@@ -22,8 +22,8 @@ namespace Spring_Thing
             mainWindow.Show();
 
             /* attach the mainViewModel */
-            var mainViewModel = new MainViewModel();
-            mainWindow.DataContext = mainViewModel;
+            //var mainViewModel = new MainViewModel();
+            //mainWindow.DataContext = mainViewModel;
         }
     }
 }

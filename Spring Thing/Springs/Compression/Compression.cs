@@ -113,13 +113,13 @@ namespace Spring_Thing.Springs
                 {
                     case "Rate":
                     case "Dimensional":
-                    default:;
+                    default:
                         break;
-                    case "TwoLoad":
-                        freeLength = (Length1 + (Load1 / SpringRate));
+                    case "Two Load":
+                        freeLength = (Length1 + (Load1 / SpringRate)) * UnitSystem.LengthConversion;
                         break;
-                    case "RateOneLoad":
-                        freeLength = (Length2 + Travel);
+                    case "Rate + Load":
+                        freeLength = (Length2 + Travel) * UnitSystem.LengthConversion;
                         break;
                 }
 
@@ -183,7 +183,7 @@ namespace Spring_Thing.Springs
                                 break;
                         }
 
-                        totalCoils = total;
+                        totalCoils = total + DeadWire;
                         break;
 
                     case "Dimensional":
@@ -202,7 +202,10 @@ namespace Spring_Thing.Springs
 
         public double TotalCoilsTolerance
         {
-            get { return totalCoilsTolerance; }
+            get
+            {
+                return totalCoilsTolerance;
+            }
             set
             {
                 totalCoilsTolerance = value;
@@ -530,6 +533,10 @@ namespace Spring_Thing.Springs
         {
             get
             {
+                if(MatchingEnds == true)
+                {
+                    end2Type = End1Type;
+                }
                 return end2Type;
             }
             set
@@ -555,7 +562,14 @@ namespace Spring_Thing.Springs
             {
                 if(value >= 0.0)
                 {
-                    grindAreaEnd1 = value;
+                    if (value < 1.0)
+                    {
+                        grindAreaEnd1 = value;
+                    }
+                    else
+                    {
+                        grindAreaEnd1 = value / 100.0;
+                    }
 
                     if(MatchingEnds == true)
                     {
@@ -569,13 +583,24 @@ namespace Spring_Thing.Springs
 
         public double GrindAreaEnd2
         {
-            get { return grindAreaEnd2; }
+            get
+            {
+                return grindAreaEnd2;
+            }
 
             set
             {
                 if(value >= 0.0)
                 {
-                    grindAreaEnd2 = value;
+                    if(value < 1.0)
+                    {
+                        grindAreaEnd2 = value;
+                    }
+                    else
+                    {
+                        grindAreaEnd2 = value / 100.0;
+                    }
+
                     OnPropertyChanged(string.Empty);
                 }
             }
@@ -815,6 +840,8 @@ namespace Spring_Thing.Springs
                     default:
                     case "Dimensional":
 
+                        activecoils -= DeadWire;
+
                         switch (End1Type)
                         {
                             case "CEG":
@@ -842,6 +869,9 @@ namespace Spring_Thing.Springs
                                 activecoils -= (SpringConstant.InactiveWire / 2.0);
                                 break;
                         }
+
+                        
+
                         break;
                     case "Rate":
                     case "Two Load":
@@ -970,7 +1000,37 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                return 0.0;
+                double deadmaterial = 0.0;
+
+                switch (End1Type)
+                {
+                    case "CENG":
+                        deadmaterial += 1.5;
+                        break;
+                    case "OEG":
+                    case "OENG":
+                        deadmaterial += 0.5;
+                        break;
+                    case "CEG":
+                        deadmaterial += 1.0;
+                        break;
+                }
+
+                switch (End2Type)
+                {
+                    case "CENG":
+                        deadmaterial += 1.5;
+                        break;
+                    case "OEG":
+                    case "OENG":
+                        deadmaterial += 0.5;
+                        break;
+                    case "CEG":
+                        deadmaterial += 1.0;
+                        break;
+                }
+
+                return (FreeLength - (deadmaterial * WireDia)) / ActiveCoils;
             }
         }
 
@@ -978,8 +1038,67 @@ namespace Spring_Thing.Springs
         {
             get
             {
-                return 0.0;
+                return (Math.Atan(Pitch / (MeanDiameter * Math.PI))).ToDegrees();
             }
+        }
+
+        public double KW
+        {
+            get
+            {
+                return ((4 * Index - 1) / (4 * Index - 4)) + (0.615 / Index);
+            }
+        }
+
+        public double StressLoad1
+        {
+            get
+            {
+                return CalculateStress(Load1);
+            }
+        }
+
+        public double StressLoad2
+        {
+            get
+            {
+                return CalculateStress(Load2);
+            }
+        }
+
+        public double StressSolid
+        {
+            get
+            {
+                return CalculateStress(SpringRate * (FreeLength - SolidHeight));
+            }
+        }
+
+        public double K1
+        {
+            get
+            {
+                if (WireThickness <= 0.0 || WireWidth <= 0.0)
+                {
+                    return 0.0;
+                }
+
+                double bt = WireThickness / WireWidth;
+
+                if (bt < 1.0)
+                {
+                    bt = 1 / bt;
+                }
+
+
+                // Based on curve fit from M.Wahl 1st Edition p.206
+                double[] t = new double[] { 0.0013, -0.0246, 0.1414, 0.0288 };
+
+                double k1 = (t[0] * Math.Pow(bt, 3)) + (t[1] * Math.Pow(bt, 2)) + (t[2] * bt) + t[3];
+
+                return k1;
+            }
+            
         }
 
         public double K2
@@ -1012,7 +1131,7 @@ namespace Spring_Thing.Springs
 
         #region Private Methods
 
-        private double GrindArea
+        private double GrindAreaTotal
         {
             get
             {
@@ -1020,15 +1139,20 @@ namespace Spring_Thing.Springs
             }
         }
 
-        private void CalculateLoads()
+        private double CalculateStress(double force)
         {
-            Length1 = FreeLength - (Travel * SpringConstant.SuggestedLength1Proportion);
-            Length2 = FreeLength - (Travel * SpringConstant.SuggestedLength2Proportion);
-
-            Load1 = SpringRate * (Travel * SpringConstant.SuggestedLength1Proportion);
-            Load2 = SpringRate * (Travel * SpringConstant.SuggestedLength2Proportion);
-
+            if (CrossSection == "Rectangular")
+            {
+                return 0.0;
+            }
+            else
+            {
+                return (8 * MeanDiameter * KW * force) / (Math.PI * Math.Pow(WireDia, 3));
+            }
+            
         }
+
+        
 
         #endregion
 
@@ -1088,6 +1212,7 @@ namespace Spring_Thing.Springs
 
 
 
+
         public Compression()
         {
             PartNumber = "New Compression";
@@ -1095,7 +1220,7 @@ namespace Spring_Thing.Springs
             DateCreated = DateTime.Today;
             LastUpdated = DateTime.Today;
             Description = string.Empty;
-            CreatedBy = "User";
+            CreatedBy = "Default";
 
             Units = "US Customary";
 

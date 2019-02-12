@@ -15,7 +15,7 @@
     <UserControl.DataContext>
         <viewmodel:CompressionViewModel/>
     </UserControl.DataContext>
-    <Grid x:Name="GridMain" Background="#FF10121D" Margin="0,0,-207,0">
+    <Grid x:Name="GridMain" Background="#FF10121D" Margin="0,0,-207,-230">
         <Grid x:Name="GridSpringName" Margin="18,0,0,0" Height="142" VerticalAlignment="Top" HorizontalAlignment="Left" Width="804">
 
             <TextBox HorizontalAlignment="Left" Height="23" Margin="87,14,0,0" TextWrapping="Wrap" Text="{Binding CurrentCompression.PartNumber}" VerticalAlignment="Top" Width="200" x:Name="TextPartNumber"/>

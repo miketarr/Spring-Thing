@@ -219,6 +219,7 @@ namespace Spring_Thing.View
                     if (c != null)
                     {
                         c.IsEnabled = !matching;
+
                     }
                 }
             }
