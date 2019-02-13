@@ -51,6 +51,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -90,11 +92,18 @@
     <Compile Include="Springs\Part.cs" />
     <Compile Include="ViewModel\BaseViewModel.cs" />
     <Compile Include="ViewModel\CompressionViewModel.cs" />
+    <Compile Include="ViewModel\DesignDataTemplateSelector.cs" />
+    <Compile Include="ViewModel\ExtensionViewModel.cs" />
+    <Compile Include="ViewModel\MainWindowViewModel.cs" />
     <Compile Include="ViewModel\MaterialViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\TabObject.cs" />
     <Compile Include="Views\Test_Compression.cs" />
     <Compile Include="View\CompressionView.xaml.cs">
       <DependentUpon>CompressionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ExtensionView.xaml.cs">
+      <DependentUpon>ExtensionView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -109,6 +118,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="View\CompressionView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ExtensionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -154,6 +167,16 @@
   <ItemGroup>
     <Resource Include="Documents\Assumptions.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Icons\NewItem_16x.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Save_16x.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Icons\Open_64x.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

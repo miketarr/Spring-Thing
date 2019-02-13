@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Spring_Thing.Springs
 {
-    class Extension
+    public class Extension : Part
     {
+
     }
 }

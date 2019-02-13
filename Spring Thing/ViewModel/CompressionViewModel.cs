@@ -19,6 +19,7 @@ namespace Spring_Thing.ViewModel
         public CompressionViewModel()
         {
             currentCompression = new Compression();
+            PartType = "Compression";
 
             unitSystemList = UnitSystems.Systems;
             materialList = MaterialLibrary.Materials;
@@ -290,6 +291,12 @@ namespace Spring_Thing.ViewModel
         }
 
         public void Save(object obj)
+        {
+            XMLStuff saver = new XMLStuff();
+            saver.SaveCompression(CurrentCompression);
+        }
+
+        protected override void SaveDesign()
         {
             XMLStuff saver = new XMLStuff();
             saver.SaveCompression(CurrentCompression);

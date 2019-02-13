@@ -16,9 +16,9 @@ using System.Windows.Shapes;
 namespace Spring_Thing.View
 {
     /// <summary>
-    /// Interaction logic for CompressionDockWindowView.xaml
+    /// Interaction logic for CompressionView.xaml
     /// </summary>
-    public partial class CompressionDockWindowView : UserControl
+    public partial class CompressionView : UserControl
     {
         private List<TextBox> RateTextBoxes;
         private List<TextBox> LoadTextBoxes;
@@ -27,7 +27,7 @@ namespace Spring_Thing.View
         private List<TextBox> AllTextBoxes;
         private List<Control> MatchingEndsList;
 
-        public CompressionDockWindowView()
+        public CompressionView()
         {
             InitializeComponent();
 

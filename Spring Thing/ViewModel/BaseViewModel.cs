@@ -27,5 +27,18 @@ namespace Spring_Thing.ViewModel
             }
             return false;
         }
+
+        protected virtual void SaveDesign()
+        {
+
+        }
+
+        public string PartType
+        {
+            get;
+            protected set;
+        }
+
+        
     }
 }

@@ -8,12 +8,65 @@
         xmlns:vm="clr-namespace:Spring_Thing.ViewModel"
         mc:Ignorable="d"
         Title="Spring Thing" Height="768" Width="1024" Background="#FF5D5A5A">
-    <Grid>
+
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+
+    <Window.Resources>
+        <vm:DesignDataTemplateSelector x:Key="designDataTemplateSelector"/>
+    </Window.Resources>
+    
+    <Grid Margin="0,53,0,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <v:CompressionDockWindowView Grid.RowSpan="2"/>
+        <TabControl x:Name="TabControlMain" Grid.RowSpan="2" Margin="0,-23,0,0" Background="#FF5D5A5A" BorderBrush="#FF5D5A5A" ItemsSource="{Binding TabObjects, UpdateSourceTrigger=PropertyChanged}" IsSynchronizedWithCurrentItem="True">
+            <!--<TabControl.ItemTemplate>
+                <DataTemplate>
+                    <HeaderedContentControl Header="{Binding TabHeader}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding TabContent}"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>-->
+
+        </TabControl>
+        
+        <Menu x:Name="MenuMainBar" Height="30" Margin="0,-53,0,0" VerticalAlignment="Top" Background="#FFC7C2C2">
+            <MenuItem x:Name="MenuItemNew">
+                <MenuItem.Header>
+                    <TextBlock Text="New" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </MenuItem.Header>
+                <MenuItem.Icon>
+                    <Image Source="Icons/NewItem_16x.png"/>
+                </MenuItem.Icon>
+                <MenuItem x:Name="MenuItem_NewCompression" Header="Compression" Command="{Binding NewCompressionCommand}"/>
+                <MenuItem x:Name="MenuItem_NewExtension" Header="Extension" IsEnabled="False"/>
+                <MenuItem x:Name="MenuItem_NewTorsion" Header="Torsion" IsEnabled="False"/>
+            </MenuItem>
+            <MenuItem x:Name="MenuItemSave" Command="{Binding SaveDesignCommand}">
+                <MenuItem.Header>
+                    <TextBlock Text="Save" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </MenuItem.Header>
+                <MenuItem.Icon>
+                    <Image Source="Icons/Save_16x.png"/>
+                </MenuItem.Icon>
+               
+            </MenuItem>
+            <MenuItem x:Name="MenuItemOpen">
+                <MenuItem.Header>
+                    <TextBlock Text="Open" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                </MenuItem.Header>
+                <MenuItem.Icon>
+                    <Image Source="Icons/Open_64x.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+        </Menu>
     </Grid>
 </Window>

@@ -1,0 +1,14 @@
+﻿<UserControl x:Name="UserControlExtension" x:Class="Spring_Thing.View.ExtensionView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Spring_Thing.View"
+      xmlns:viewmodel="clr-namespace:Spring_Thing.ViewModel"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="1029">
+
+    <Grid x:Name="GridMain" Background="#FF10121D" Margin="0,0,-207,-230">
+        
+    </Grid>
+</UserControl>
